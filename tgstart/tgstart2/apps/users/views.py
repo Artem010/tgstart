@@ -34,6 +34,11 @@ def index(request):
         print(username)
         print('done!!!!')
 
-    context= {'form': form, 'username': username, 'first_name': first_name, 'last_name': last_name, 'submitbutton': submitbutton}
+    # allUsers = User.objects.values_list('user_name')
+    allUsers = list(User.objects.all())
+
+    print (allUsers)
+
+    context= {'allUsers': allUsers, 'form': form, 'username': username, 'first_name': first_name, 'last_name': last_name, 'submitbutton': submitbutton}
 
     return render(request, 'base.html', context)
