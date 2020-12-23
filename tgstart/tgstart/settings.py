@@ -35,12 +35,13 @@ SECRET_KEY = 'auz9e=%88qtr+uvsw@29k*mb^k*!0ioai!)ful)*e2%f^%$b^i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.188.225.11.155']
+ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django_telegram_login',
     'django.contrib.admin',
     'django.contrib.auth',
