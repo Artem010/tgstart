@@ -9,16 +9,39 @@
 </head>
 <body>
 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos expedita assumenda, sequi eligendi molestias fugiat nobis dolores iste laudantium nostrum eius fuga voluptates repellendus ullam inventore quasi numquam consequuntur, eaque!</p>
-<!-- <script async src="https://telegram.org/js/telegram-widget.js?14" data-telegram-login="tgstartAuth2bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script> -->
-<!-- function onTelegramAuth(user) {
-  document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+<script async src="https://telegram.org/js/telegram-widget.js?14" data-telegram-login="tgstartAuth2bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+<script>
 
-} -->
+function onTelegramAuth(user) {
+	// document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+	$('#id_username').val(user.username);
+	$('#id_first_name').val(user.first_name);
+	$('#id_last_name').val(user.last_name);
+	$('#id_id_user').val(user.id);
+
+
+}
+</script>
 
 <form action="" method="POST">
 {% csrf_token %}
-{{ form.as_p }}
-<input type="Submit" name="submit" value="Submit"/>
+<!-- {{ form.as_p }} -->
+<p>
+	<label for="id_username">Username:</label>
+	<input type="text" name="username" value="5" maxlength="100" required="" id="id_username"></p>
+<p>
+	<label for="id_first_name">First name:</label>
+	<input type="text" name="first_name" value="5" maxlength="100" required="" id="id_first_name">
+</p>
+<p>
+	<label for="id_last_name">Last name:</label>
+	<input type="text" name="last_name" value="5" maxlength="100" required="" id="id_last_name">
+</p>
+<p>
+	<label for="id_id_user">Id user:</label>
+	<input type="text" name="id_user" value="5" maxlength="100" required="" id="id_id_user">
+</p>
+<input type="Submit" name="submit" value="Submit">
 </form>
 
 {% if submitbutton == "Submit" %}
