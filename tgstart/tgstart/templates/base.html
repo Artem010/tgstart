@@ -4,16 +4,34 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Авторизация</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos expedita assumenda, sequi eligendi molestias fugiat nobis dolores iste laudantium nostrum eius fuga voluptates repellendus ullam inventore quasi numquam consequuntur, eaque!</p>
 <script async src="https://telegram.org/js/telegram-widget.js?14" data-telegram-login="tgstartAuth2bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
 <script type="text/javascript">
 
-  function onTelegramAuth(user) {
-    document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-  	
-  }
+  // function onTelegramAuth(user) {
+  //   document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+	//
+  // }
+
+
+	total  = 5
+
+	$('#myButton').click(function(){
+	  var bjpFan=localStorage['bjpFan'];
+	  var userid = 1//get the user id here to which you want to relate the score.
+	  var total = parseInt(localStorage['total']);
+	  $.ajax({
+	    url: "/poll/score/",
+	    type:"GET",
+	    data: {total:total,userid:userid}
+	  }).done(function(data){
+	     alert(data);//do what you want to do with response
+	  });
+	});
+
 </script>
 
 </body>

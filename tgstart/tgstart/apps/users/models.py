@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class User(models.Model):
 	user_name = models.CharField('Логин', max_length = 30)
 	user_firstname = models.TextField('Имя', max_length = 30)
@@ -10,6 +9,6 @@ class User(models.Model):
 	def __str__(self):
 		return self.user_name
 
-	class Meta: 
+	class Meta:
 		verbose_name = "Пользователь"
 		verbose_name_plural = "Пользователи"
