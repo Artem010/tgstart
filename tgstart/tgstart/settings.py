@@ -25,7 +25,7 @@ TELEGRAM_LOGIN_REDIRECT_URL = 'https://chilly-moth-12.loca.lt'
 
 
 sys.path.insert(0, os.path.join(Project_root, 'apps'))
-
+ 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
