@@ -31,13 +31,10 @@ def index(request):
         id_user= form.cleaned_data.get("id_user")
         a = User(user_name = username, user_firstname=first_name,user_lastname=last_name, id_user =id_user)
         a.save()
-        print(username)
-        print('done!!!!')
 
     # allUsers = User.objects.values_list('user_name')
     allUsers = list(User.objects.all())
 
-    print (allUsers)
 
     context= {'allUsers': allUsers, 'form': form, 'username': username, 'first_name': first_name, 'last_name': last_name, 'submitbutton': submitbutton}
 
