@@ -20,6 +20,8 @@ Project_root = os.path.dirname(__file__)
 TELEGRAM_BOT_NAME = 'tgstartAuth2bot'
 TELEGRAM_BOT_TOKEN = '1370961607:AAF3Opruf2dtn9wtKWy3g3nQXiYH2yAFAiw'
 
+
+sys.path.insert(0, os.path.join(Project_root, 'apps'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -35,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +61,9 @@ ROOT_URLCONF = 'tgstart2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(Project_root, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

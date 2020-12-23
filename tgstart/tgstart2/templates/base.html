@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Авторизация</title>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
+</head>
+<body>
+<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos expedita assumenda, sequi eligendi molestias fugiat nobis dolores iste laudantium nostrum eius fuga voluptates repellendus ullam inventore quasi numquam consequuntur, eaque!</p>
+<!-- <script async src="https://telegram.org/js/telegram-widget.js?14" data-telegram-login="tgstartAuth2bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script> -->
+<!-- function onTelegramAuth(user) {
+  document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+
+} -->
+
+<form action="" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="Submit" name="submit" value="Submit"/>
+</form>
+
+{% if submitbutton == "Submit" %}
+<h1>Your first name is {{ first_name }}</h1>
+<h1>Your last name is {{ last_name }}</h1>
+<h1>Your username is {{ username }}</h1>
+{% endif %}
+
+</body>
+</html>
