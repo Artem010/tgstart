@@ -31,7 +31,7 @@ SECRET_KEY = 'f^l4d$%aqmod*ybac4=m&(rr(xb+w+cyy)x-^*(srvwqi89b%4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['188.225.11.155']
+ALLOWED_HOSTS = ['188.225.11.155','localhost', '127.0.0.1']
 
 
 # Application definition
