@@ -4,7 +4,13 @@ from django.http import HttpResponse
 
 from django.db import models
 
+from users.models import User
 
 
-def index(request):
-    return render(request, 'volt/index.html')
+
+def dashboard(request):
+    allUsers = list(User.objects.all())
+    cUser = {'first_name': 'ARTEM', 'last_name':'IPATOV'}
+    # print (allUsers[0])
+    print (cUser)
+    return render(request, 'volt/pages/dashboard.html', cUser)

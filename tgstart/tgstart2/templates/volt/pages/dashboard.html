@@ -1,23 +1,8 @@
-<!--
-
-=========================================================
-* Volt - Bootstrap 5 Admin Dashboard
-=========================================================
-
-* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
-* Copyright 2020 Themesberg (https://www.themesberg.com)
-
-* Designed and coded by https://themesberg.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
-
--->
+{% load static  %}
 <!DOCTYPE html>
 <html lang="en">
 
-<head> 
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Primary Meta Tags -->
 <title>Volt - Free Bootstrap 5 Dashboard</title>
@@ -43,22 +28,22 @@
 <meta property="twitter:image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-bootstrap-5-dashboard/volt-bootstrap-5-dashboard-preview.jpg">
 
 <!-- Favicon -->
-<link rel="apple-touch-icon" sizes="120x120" href="../../assets/img/favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
-<link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
-<link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+<link rel="apple-touch-icon" sizes="120x120" href="{% static '/assets/img/favicon/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static '/assets/img/favicon/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static '/assets/img/favicon/favicon-16x16.png' %}">
+<link rel="manifest" href="{% static '/assets/img/favicon/site.webmanifest' %}">
+<link rel="mask-icon" href="{% static '/assets/img/favicon/safari-pinned-tab.svg' %}" color="#ffffff">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
 <!-- Fontawesome -->
-<link type="text/css" href="../../vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link type="text/css" href="{% static 'vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
 
 <!-- Notyf -->
-<link type="text/css" href="../../vendor/notyf/notyf.min.css" rel="stylesheet">
+<link type="text/css" href="{% static 'vendor/notyf/notyf.min.css' %}" rel="stylesheet">
 
 <!-- Volt CSS -->
-<link type="text/css" href="../../css/volt.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="{% static '/css/volt.css' %}" >
 
 <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
 
@@ -117,10 +102,10 @@
         <li class="nav-item">
           <span class="nav-link  collapsed  d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#submenu-app">
             <span>
-              <span class="sidebar-icon"><span class="fas fa-table"></span></span> 
+              <span class="sidebar-icon"><span class="fas fa-table"></span></span>
               Tables
             </span>
-            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span> 
+            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
           </span>
           <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
               <ul class="flex-column nav">
@@ -131,10 +116,10 @@
         <li class="nav-item">
           <span class="nav-link  collapsed  d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#submenu-pages">
             <span>
-              <span class="sidebar-icon"><span class="far fa-file-alt"></span></span> 
+              <span class="sidebar-icon"><span class="far fa-file-alt"></span></span>
               Page examples
             </span>
-            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span> 
+            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
           </span>
           <div class="multi-level collapse " role="list" id="submenu-pages" aria-expanded="false">
               <ul class="flex-column nav">
@@ -151,10 +136,10 @@
         <li class="nav-item">
           <span class="nav-link  collapsed  d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#submenu-components">
             <span>
-              <span class="sidebar-icon"><span class="fas fa-box-open"></span></span> 
+              <span class="sidebar-icon"><span class="fas fa-box-open"></span></span>
               Components
             </span>
-            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span> 
+            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
           </span>
           <div class="multi-level collapse " role="list" id="submenu-components" aria-expanded="false">
               <ul class="flex-column nav">
@@ -207,7 +192,7 @@
 
 
 
-    
+
         <main class="content">
 
             <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
@@ -319,7 +304,7 @@
                       <div class="col pl-0 ml--2">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                              <h4 class="h6 mb-0 text-small">Bonnie Green</h4>
+                              <h4 class="h6 mb-0 text-small">Bonngie Green</h4>
                             </div>
                             <div class="text-right">
                               <small>2 hrs ago</small>
@@ -338,7 +323,11 @@
               <div class="media d-flex align-items-center">
                 <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder" src="../../assets/img/team/profile-picture-3.jpg">
                 <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                  <span class="mb-0 font-small font-weight-bold">Bonnie Green</span>
+                  <span class="mb-0 font-small font-weight-bold">
+
+                    {{first_name}}, {{last_name}}
+
+                  </span>
                 </div>
               </div>
             </a>
@@ -381,9 +370,9 @@
                             <div class="d-block">
                                 <div class="h5 font-weight-normal mb-2">Sales Value</div>
                                 <h2 class="h3">$10,567</h2>
-                                <div class="small mt-2"> 
-                                    <span class="font-weight-bold mr-2">Yesterday</span>                              
-                                    <span class="fas fa-angle-up text-success"></span>                                   
+                                <div class="small mt-2">
+                                    <span class="font-weight-bold mr-2">Yesterday</span>
+                                    <span class="fas fa-angle-up text-success"></span>
                                     <span class="text-success font-weight-bold">10.57%</span>
                                 </div>
                             </div>
@@ -413,9 +402,9 @@
                                         <h2 class="h5">Customers</h2>
                                         <h3 class="mb-1">345k</h3>
                                     </div>
-                                    <small>Feb 1 - Apr 1,  <span class="icon icon-small"><span class="fas fa-globe-europe"></span></span> WorldWide</small> 
-                                    <div class="small mt-2">                               
-                                        <span class="fas fa-angle-up text-success"></span>                                   
+                                    <small>Feb 1 - Apr 1,  <span class="icon icon-small"><span class="fas fa-globe-europe"></span></span> WorldWide</small>
+                                    <div class="small mt-2">
+                                        <span class="fas fa-angle-up text-success"></span>
                                         <span class="text-success font-weight-bold">18.2%</span> Since last month
                                     </div>
                                 </div>
@@ -440,8 +429,8 @@
                                         <h3 class="mb-1">$43,594</h3>
                                     </div>
                                     <small>Feb 1 - Apr 1,  <span class="icon icon-small"><span class="fas fa-globe-europe"></span></span> Worldwide</small>
-                                    <div class="small mt-2">                               
-                                        <span class="fas fa-angle-up text-success"></span>                                   
+                                    <div class="small mt-2">
+                                        <span class="fas fa-angle-up text-success"></span>
                                         <span class="text-success font-weight-bold">28.2%</span> Since last month
                                     </div>
                                 </div>
@@ -758,8 +747,8 @@
                                 <div class="d-block">
                                     <div class="h6 font-weight-normal text-gray mb-2">Total orders</div>
                                     <h2 class="h3">452</h2>
-                                    <div class="small mt-2">                               
-                                        <span class="fas fa-angle-up text-success"></span>                                   
+                                    <div class="small mt-2">
+                                        <span class="fas fa-angle-up text-success"></span>
                                         <span class="text-success font-weight-bold">18.2%</span>
                                     </div>
                                 </div>
@@ -901,7 +890,7 @@
 <!-- Volt JS -->
 <script src="../../assets/js/volt.js"></script>
 
-    
+
 </body>
 
 </html>

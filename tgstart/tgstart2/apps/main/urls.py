@@ -11,7 +11,5 @@ from django.urls import include
 # import urls
 
 urlpatterns = [
-	# path('', views.index, name = 'index'),
-	# path('dashboard', views.dashboard, name = 'dashboard')
-	path('', views.dashboard, name = 'dashboard')
+    path('', views.index, name = 'index'),  
 ]
