@@ -21,4 +21,10 @@ def dashboard(request):
     return render(request, 'volt/dashboard.html', check_auth(request))
 
 def profile(request):
+
+    print(request.POST.get('last_name'))
+    print(request.POST.get('user_email'))
+
+    
+
     return render(request, 'volt/profile.html', check_auth(request))
