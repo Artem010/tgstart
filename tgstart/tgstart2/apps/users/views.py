@@ -37,7 +37,7 @@ def index(request):
             id_user= form.cleaned_data.get("id_user")
             a = User(user_name = username, user_firstname=first_name,user_lastname=last_name, id_user =id_user)
             a.save()
-        request.session['sUserId'] = id_user
+        request.session['sUserId'] = form.cleaned_data.get("id_user")
         return redirect('/dashboard')
 
         # print("REDIRECT")
