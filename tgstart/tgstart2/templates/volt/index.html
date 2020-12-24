@@ -28,11 +28,11 @@
 <meta property="twitter:image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-bootstrap-5-dashboard/volt-bootstrap-5-dashboard-preview.jpg">
 
 <!-- Favicon -->
-<link rel="apple-touch-icon" sizes="120x120" href="./assets/img/favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
-<link rel="manifest" href="./assets/img/favicon/site.webmanifest">
-<link rel="mask-icon" href="./assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+<link rel="apple-touch-icon" sizes="120x120" href="{% static '/assets/img/favicon/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static '/assets/img/favicon/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static '/assets/img/favicon/favicon-16x16.png' %}">
+<link rel="manifest" href="{% static '/assets/img/favicon/site.webmanifest' %}">
+<link rel="mask-icon" href="{% static '/assets/img/favicon/safari-pinned-tab.svg' %}" color="#ffffff">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -136,128 +136,7 @@
                 </div>
             </div>
         </div>
-        <section class="section section-sm pt-0">
-            <div class="container">
-                <div class="row justify-content-center mb-5 mb-lg-6">
-                    <div class="col-12 text-center">
-                        <h2 class="h1 px-lg-5">10 hand-crafted pages</h2>
-                        <p class="lead px-lg-10">Every page from Volt has been carefully built to provide all the necessary pages your startup will require</p>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-6 mb-5">
-                        <a href="./pages/dashboard/dashboard.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/overview.jpg" alt="Dashboard page preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Overview <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/transactions.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/transactions.jpg" alt="Transactions page preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Transactions <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/settings.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/settings.jpg" alt="Settings page preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Settings <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/sign-in.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/sign-in.jpg" alt="Sign In page preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Sign In <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/sign-up.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/sign-up.jpg" alt="Sign Up page preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Sign Up <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/lock.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/lock.jpg" alt="Lock page preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Sign Up <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/forgot-password.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/forgot-password.jpg" alt="Forgot password preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Forgot password <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/reset-password.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/reset-password.jpg" alt="Reset password preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">Reset password <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/404.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/404.jpg" alt="404 error preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">404 <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 mb-5">
-                        <a href="./pages/examples/500.html" class="page-preview page-preview-lg scale-up-hover-2">
-                            <img class="shadow-lg rounded scale" src="./assets/img/pages/500.jpg" alt="500 error preview">
-                            <div class="text-center show-on-hover">
-                                <h6 class="m-0 text-center text-white">500 <i class="fas fa-external-link-alt ml-2"></i></h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-6 col-md-3 text-center mb-4">
-                        <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle icon-secondary mb-4">
-                            <span class="fas fa-pager"></span>
-                        </div>
-                        <h3 class="font-weight-bolder">20</h3>
-                        <p class="text-gray">Dashboard Pages</p>
-                    </div>
-                    <div class="col-6 col-md-3 text-center mb-4">
-                        <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle icon-secondary mb-4">
-                            <span class="fas fa-puzzle-piece"></span>
-                        </div>
-                        <h3 class="font-weight-bolder">800+</h3>
-                        <p class="text-gray">Premium Components</p>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle icon-secondary mb-4">
-                            <span class="fab fa-sass"></span>
-                        </div>
-                        <h3 class="font-weight-bolder">Workflow</h3>
-                        <p class="text-gray">Sass & Gulp</p>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle icon-secondary mb-4">
-                            <span class="fab fa-js-square"></span>
-                        </div>
-                        <h3 class="font-weight-bolder">Vanilla</h3>
-                        <p class="text-gray">Javascript</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+
         <section class="section section-lg bg-primary text-white">
             <div class="container">
                 <div class="row justify-content-center mb-5 mb-lg-6">
