@@ -23,16 +23,15 @@ function onTelegramAuth(user) {
 	// 		$('#id_username').val("none")
 	// 	else $('#id_username').val(user.username)
 	// }
-
-	$('#id_first_name').val(user.first_name);
-
-	if(user.first_name == null){
-		$('#id_username').val("undefined");
+	if(user.username == undefined){
+		$('#id_username').val("none");
 	}else{
 		$('#id_username').val(user.username);
 	}
 
-	if(user.last_name == 'undefined'){
+	$('#id_first_name').val(user.first_name);
+
+	if(user.last_name == undefined){
 		$('#id_last_name').val("none");
 	}else{
 		$('#id_last_name').val(user.last_name);
