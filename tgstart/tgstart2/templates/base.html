@@ -31,8 +31,24 @@ function onTelegramAuth(user) {
 	    	return x+"none";
 	  }
 	);
-	$('#id_first_name').val(user.first_name);
-	$('#id_last_name').val(user.last_name);
+	$('#id_first_name').val(
+	  function(index, x){
+	    if(user.first_name!= "")
+	    	return x;
+	    else
+	    	return x+"none";
+	  }
+	);
+	$('#id_last_name').val(
+	  function(index, x){
+	    if(user.last_name!= "")
+	    	return x;
+	    else
+	    	return x+"none";
+	  }
+	);
+	// $('#id_first_name').val(user.first_name);
+	// $('#id_last_name').val(user.last_name);
 	$('#id_id_user').val(user.id);
   $('#sub').click();
 
