@@ -26,13 +26,13 @@ function onTelegramAuth(user) {
 
 	$('#id_username').val(user.username);
 
-	if($('#id_first_name').val() == null){
+	if(user.first_name == null){
 		$('#id_first_name').val("none");
 	}else{
 		$('#id_first_name').val(user.first_name);
 	}
 
-	if($('#id_last_name').val() == null){
+	if(user.last_name == null){
 		$('#id_last_name').val("none");
 	}else{
 		$('#id_last_name').val(user.last_name);
