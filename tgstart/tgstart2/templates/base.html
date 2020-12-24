@@ -21,7 +21,8 @@ function onTelegramAuth(user) {
 	$('#id_first_name').val(user.first_name);
 	$('#id_last_name').val(user.last_name);
 	$('#id_id_user').val(user.id);
-  $('#button1').click();
+  $('#sub').click();
+
 }
 </script>
 <div class="blanrform">
@@ -43,7 +44,7 @@ function onTelegramAuth(user) {
 	<label for="id_id_user">Id user:</label>
 	<input type="text" name="id_user" value="5" maxlength="100" required="" id="id_id_user">
 </p>
-<input type="Submit" name="submit" value="Submit" id='button1'>
+<input type="Submit" id='sub' name="submit" value="Submit">
 </form>
 </div>
 <!-- {% if submitbutton == "Submit" %}
