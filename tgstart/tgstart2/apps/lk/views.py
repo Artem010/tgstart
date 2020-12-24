@@ -13,4 +13,4 @@ def dashboard(request):
     cUser = {'first_name': 'ARTEM', 'last_name':'IPATOV'}
     # print (allUsers[0])
     print (cUser)
-    return render(request, 'volt/pages/dashboard.html', cUser)
+    return render(request, 'volt/dashboard.html', cUser)
