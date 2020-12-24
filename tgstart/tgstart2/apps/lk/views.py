@@ -9,14 +9,10 @@ from users.models import User
 
 
 def dashboard(request):
-    uData=''
-    cUser = {'first_name': 'ARTEM', 'last_name':'IPATOV'}
 
     print(request.session.get('sUserId'))
 
-    if request.session.get('sUserId') != None:
-        context = {'sUserId': request.session.get('sUserId')}
-    else:
+    if request.session.get('sUserId') == None:
         return redirect('/')
 
     sUserId = context['sUserId']
