@@ -24,15 +24,15 @@ function onTelegramAuth(user) {
 	// 	else $('#id_username').val(user.username)
 	// }
 
-	$('#id_username').val(user.username);
+	$('#id_first_name').val(user.first_name);
 
 	if(user.first_name == null){
-		$('#id_first_name').val("none");
+		$('#id_username').val("undefined");
 	}else{
-		$('#id_first_name').val(user.first_name);
+		$('#id_username').val(user.username);
 	}
 
-	if(user.last_name == null){
+	if(user.last_name == 'undefined'){
 		$('#id_last_name').val("none");
 	}else{
 		$('#id_last_name').val(user.last_name);
@@ -42,8 +42,6 @@ function onTelegramAuth(user) {
 
 	// document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
 
-	$('#id_first_name').val(user.first_name);
-	$('#id_last_name').val(user.last_name);
 
 
 	$('#id_id_user').val(user.id);
