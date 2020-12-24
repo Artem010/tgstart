@@ -8,5 +8,5 @@ def index(request):
 def logout(request):
     del request.session['sUserId']
 
-    print("*********")
+    print("*******del session*******")
     return redirect('/')
