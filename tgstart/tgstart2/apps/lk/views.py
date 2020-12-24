@@ -7,28 +7,18 @@ from django.db import models
 from users.models import User
 
 
-
-def dashboard(request):
-
-
+def check_auth(request):
     sessionUserId=request.session.get('sUserId')
-
-    print(sessionUserId)
-
     if sessionUserId == None:
         return redirect('/')
 
     sUserId = sessionUserId
     uData = User.objects.filter(id_user = sUserId)
+    return {'sUserId':request.session.get('sUserId'), 'uData':uData[0]}
 
-    # for a in uData:
-    #     print(a.user_firstname)
+def dashboard(request):
 
-    # context.add(uData)
+    return render(request, 'volt/dashboard.html', check_auth(request))
 
-
-    # print(context)
-
-    # print (allUsers[0])
-    # print (cUser)
-    return render(request, 'volt/dashboard.html', {'sUserId':request.session.get('sUserId'), 'uData':uData})
+def profile(request):
+    return render(request, 'volt/profile.html', check_auth(request))

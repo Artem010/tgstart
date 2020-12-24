@@ -59,9 +59,7 @@
     <li class="nav-item text-nowrap">
       <!-- <a class="nav-link" href="#">Sign out</a> -->
       <a class="nav-link" href="/logout">
-      {% for a in uData%}
-        {{a.user_firstname}} {{a.user_lastname}}
-      {% endfor %}
+      {{uData.user_firstname}} {{uData.user_lastname}}
       </a>
     </li>
     <!-- <li class="nav-item text-nowrap">
@@ -76,7 +74,7 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link active" aria-current="page" href="/dashboard">
               <span data-feather="home"></span>
               Dashboard
             </a>
@@ -94,9 +92,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/profile">
               <span data-feather="users"></span>
-              Customers
+              Profile
             </a>
           </li>
           <li class="nav-item">
