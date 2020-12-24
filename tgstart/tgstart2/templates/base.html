@@ -35,6 +35,7 @@ function onTelegramAuth(user) {
 		$('#id_first_name').val(user.first_name);
 	}
 
+	print('last_name:' + $('#id_last_name').val())
 	if($('#id_last_name').val() == ""){
 		$('#id_last_name').val("none");
 	}else{
