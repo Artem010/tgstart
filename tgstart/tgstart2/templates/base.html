@@ -23,32 +23,32 @@ function onTelegramAuth(user) {
 	// 		$('#id_username').val("none")
 	// 	else $('#id_username').val(user.username)
 	// }
-	$('#id_username').val(
-	  function(index, x){
-	    if(user.username!= "")
-	    	return x;
-	    else
-	    	return x+"none";
-	  }
-	);
-	$('#id_first_name').val(
-	  function(index, x){
-	    if(user.first_name!= "")
-	    	return x;
-	    else
-	    	return x+"none";
-	  }
-	);
-	$('#id_last_name').val(
-	  function(index, x){
-	    if(user.last_name!= "")
-	    	return x;
-	    else
-	    	return x+"none";
-	  }
-	);
+	if($('#id_username').val() == ""){
+		$('#id_username').val("none");
+	}else{
+		$('#id_username').val(user.username);
+	}
+
+	if($('#id_first_name').val() == ""){
+		$('#id_first_name').val("none");
+	}else{
+		$('#id_first_name').val(user.first_name);
+	}
+
+	if($('#id_last_name').val() == ""){
+		$('#id_last_name').val("none");
+	}else{
+		$('#id_last_name').val(user.last_name);
+	}
 	// $('#id_first_name').val(user.first_name);
-	// $('#id_last_name').val(user.last_name);
+	// $('#id_last_name').val(user.last_name);\
+
+	// document.write('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+
+	$('#id_first_name').val(user.first_name);
+	$('#id_last_name').val(user.last_name);
+
+
 	$('#id_id_user').val(user.id);
   $('#sub').click();
 
