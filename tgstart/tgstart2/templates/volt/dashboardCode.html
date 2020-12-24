@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+  {% block name %}
+    {{uData.user_firstname}}
+    {% if uData.user_lastname != 'none' %}
+      {{uData.user_lastname}}
+    {% endif %}
+  {% endblock %}
+
+
+{% endblock %}

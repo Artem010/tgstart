@@ -14,10 +14,10 @@ def check_auth(request):
 
     sUserId = sessionUserId
     uData = User.objects.filter(id_user = sUserId)
+
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0]}
 
 def dashboard(request):
-
     return render(request, 'volt/dashboard.html', check_auth(request))
 
 def profile(request):

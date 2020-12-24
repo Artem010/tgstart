@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block head %}
+<style>
+ /* .blanrform { visibility: hidden; } */
+</style>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+	<script async src="https://telegram.org/js/telegram-widget.js?14" data-telegram-login="tgstartAuth2bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+	<script>
+
+	function onTelegramAuth(user) {
+		if(user.username == undefined){
+			$('#id_username').val("none");
+		}else{
+			$('#id_username').val(user.username);
+		}
+		$('#id_first_name').val(user.first_name);
+		if(user.last_name == undefined){
+			$('#id_last_name').val("none");
+		}else{
+			$('#id_last_name').val(user.last_name);
+		}
+		$('#id_id_user').val(user.id);
+	  $('#sub').click();
+	}
+	</script>
+	<div class="blanrform">
+	<form action="" method="POST" id='form1'>
+	{% csrf_token %}
+	<p>
+		<label for="id_username">Username:</label>
+		<input type="text" name="username" value="5" maxlength="100"  id="id_username"></p>
+	<p>
+		<label for="id_first_name">First name:</label>
+		<input type="text" name="first_name" value="5" maxlength="100"  id="id_first_name">
+	</p>
+	<p>
+		<label for="id_last_name">Last name:</label>
+		<input type="text" name="last_name" value="5" maxlength="100"  id="id_last_name">
+	</p>
+	<p>
+		<label for="id_id_user">Id user:</label>
+		<input type="text" name="id_user" value="5" maxlength="100" required="" id="id_id_user">
+	</p>
+	<input type="Submit" id='sub' name="submit" value="Submit">
+	</form>
+	</div>
+
+{% endblock %}

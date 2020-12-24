@@ -35,7 +35,7 @@ def index(request):
             first_name= form.cleaned_data.get("first_name")
             last_name= form.cleaned_data.get("last_name")
             id_user= form.cleaned_data.get("id_user")
-            a = User(user_name = username, user_firstname=first_name,user_lastname=last_name, id_user =id_user)
+            a = User(user_name = username, user_firstname=first_name, user_lastname=last_name, id_user =id_user)
             a.save()
         request.session['sUserId'] = form.cleaned_data.get("id_user")
         return redirect('/dashboard')
@@ -58,4 +58,4 @@ def index(request):
 
     context= {'allUsers': allUsers, 'form': form, 'username': username, 'first_name': first_name, 'last_name': last_name, 'submitbutton': submitbutton}
 
-    return render(request, 'base.html', context)
+    return render(request, 'users/auth.html', context)
