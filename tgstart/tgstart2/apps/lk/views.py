@@ -10,12 +10,15 @@ from users.models import User
 
 def dashboard(request):
 
-    print(request.session.get('sUserId'))
 
-    if request.session.get('sUserId') == None:
+    sessionUserId=request.session.get('sUserId')
+
+    print(sessionUserId)
+
+    if sessionUserId == None:
         return redirect('/')
 
-    sUserId = context['sUserId']
+    sUserId = sessionUserId
     uData = User.objects.filter(id_user = sUserId)
 
     # for a in uData:
@@ -24,7 +27,7 @@ def dashboard(request):
     # context.add(uData)
 
 
-    print(context)
+    # print(context)
 
     # print (allUsers[0])
     # print (cUser)
