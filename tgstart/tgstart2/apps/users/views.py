@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.shortcuts import redirect
 from django.http import HttpResponse
 
 from django.db import models
@@ -15,6 +15,7 @@ class UserForm(forms.Form):
     id_user = forms.CharField(max_length=100)
 
 
+
 def index(request):
     submitbutton= request.POST.get("submit")
 
@@ -28,17 +29,17 @@ def index(request):
 
         # currentUser =
 
-        currentUser = User.objects.filter(id_user=form.cleaned_data.get("id_user")).exists()
-        if not currentUser:
-            username= form.cleaned_data.get("username")
-            first_name= form.cleaned_data.get("first_name")
-            last_name= form.cleaned_data.get("last_name")
-            id_user= form.cleaned_data.get("id_user")
-            a = User(user_name = username, user_firstname=first_name,user_lastname=last_name, id_user =id_user)
-            a.save()
-        else:
-             username = "Такой пользователь уже существует!"
-
+        # currentUser = User.objects.filter(id_user=form.cleaned_data.get("id_user")).exists()
+        # if not currentUser:
+        username= form.cleaned_data.get("username")
+        first_name= form.cleaned_data.get("first_name")
+        last_name= form.cleaned_data.get("last_name")
+        id_user= form.cleaned_data.get("id_user")
+        a = User(user_name = username, user_firstname=first_name,user_lastname=last_name, id_user =id_user)
+        a.save()
+        request.session['sUserId'] = id_user
+        return redirect('/dashboard')
+        print("REDIRECT")
         # if(currentUser):
         #     username= form.cleaned_data.get("username")
         #     first_name= form.cleaned_data.get("first_name")
