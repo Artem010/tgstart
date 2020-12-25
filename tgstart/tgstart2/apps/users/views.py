@@ -16,7 +16,7 @@ class UserForm(forms.Form):
 
 
 
-def index(request):
+def auth(request):
     submitbutton= request.POST.get("submit")
 
     username=''
@@ -31,7 +31,7 @@ def index(request):
     form= UserForm(request.POST or None)
     if form.is_valid():
 
-            
+
 
         currentUser = User.objects.filter(id_user=form.cleaned_data.get("id_user")).exists()
         if not currentUser:
@@ -48,3 +48,14 @@ def index(request):
     context= {'form': form, 'username': username, 'first_name': first_name, 'last_name': last_name, 'submitbutton': submitbutton}
 
     return render(request, 'users/auth.html', context)
+
+
+
+def index(request):
+    return render(request, 'volt/index.html')
+
+
+def logout(request):
+    del request.session['sUserId']
+    print("*******del session*******")
+    return redirect('/')

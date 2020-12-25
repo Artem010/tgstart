@@ -10,6 +10,8 @@ from django.urls import include
 # import urls
 
 urlpatterns = [
-	path('', views.index, name = 'index'),
-	
+	path('logout/', views.logout, name = 'logout'),
+    path('', views.index, name = 'index'),
+	path('auth/', views.auth, name = 'auth'),
+
 ]
