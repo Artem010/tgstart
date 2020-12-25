@@ -14,5 +14,9 @@ urlpatterns = [
 	# path('', views.index, name = 'index'),
 	# path('dashboard', views.dashboard, name = 'dashboard')
 	path('dashboard/', views.dashboard, name = 'dashboard'),
-	path('profile/', views.profile, name = 'profile')
+	path('profile/', views.profile, name = 'profile'),
+	path('mybots/', views.mybots, name = 'mybots'),
+	path('pay/', views.pay, name = 'pay'),
+	path('senders/', views.senders, name = 'senders'),
+	path('users/', views.users, name = 'users'),
 ]

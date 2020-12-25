@@ -20,6 +20,18 @@ def check_auth(request):
 def dashboard(request):
     return render(request, 'volt/dashboard.html', check_auth(request))
 
+def mybots(request):
+    return render(request, 'volt/mybots.html', check_auth(request))
+
+def pay(request):
+    return render(request, 'volt/pay.html', check_auth(request))
+
+def senders(request):
+    return render(request, 'volt/senders.html', check_auth(request))
+
+def users(request):
+    return render(request, 'volt/users.html', check_auth(request))
+
 def profile(request):
 
     if request.method == "POST":
