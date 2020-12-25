@@ -24,8 +24,14 @@ def index(request):
     last_name=''
     id_user=''
 
+    if request.method == "POST":
+        print('NEW request!!')
+
+
     form= UserForm(request.POST or None)
     if form.is_valid():
+
+            
 
         currentUser = User.objects.filter(id_user=form.cleaned_data.get("id_user")).exists()
         if not currentUser:
