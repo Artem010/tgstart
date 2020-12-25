@@ -52,6 +52,10 @@ def auth(request):
 
 
 def index(request):
+
+    sessionUserId=request.session.get('sUserId')
+    if sessionUserId != None:
+        return redirect('/dashboard')
     return render(request, 'volt/index.html')
 
 
