@@ -22,9 +22,13 @@ def dashboard(request):
 
 def profile(request):
 
-    print(request.POST.get('last_name'))
-    print(request.POST.get('user_email'))
+    if request.method == "POST":
+        # print(request.POST.get('last_name'))
+        # print(request.POST.get('user_email'))
 
-    
+        cUser = User.objects.get(id_user=request.session.get('sUserId'))
+        cUser.user_lastname = request.POST.get('last_name')
+        cUser.user_email = request.POST.get('user_email')
+        cUser.save()
 
     return render(request, 'volt/profile.html', check_auth(request))

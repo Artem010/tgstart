@@ -150,11 +150,11 @@
     {% csrf_token %}
     <div class="form-group mb-2">
         <label for="" class="col-sm-1 col-form-label">Username:</label>
-        <input type="text" readonly value="{{uData.user_name}}">
+        <input type="text" disabled value="{{uData.user_name}}">
     </div>
     <div class="form-group mb-2">
         <label for="" class="col-sm-1 col-form-label">Name:</label>
-        <input type="text" readonly value="{{uData.user_firstname}}">
+        <input type="text" disabled value="{{uData.user_firstname}}">
     </div>
     <div class="form-group mb-2">
         <label for="" class="col-sm-1 col-form-label">Last name:</label>
