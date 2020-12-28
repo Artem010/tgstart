@@ -38,10 +38,10 @@ ALLOWED_HOSTS = ['188.225.11.155','localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
+    'lk.apps.LkConfig',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
-    # 'django.contrib.lk',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

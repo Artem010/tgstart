@@ -2,8 +2,12 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 
-from django.db import models
+import os
+import  subprocess
+import shutil
 
+
+from django.db import models
 from users.models import User
 
 
@@ -21,6 +25,23 @@ def dashboard(request):
     return render(request, 'volt/dashboard.html', check_auth(request))
 
 def mybots(request):
+
+    if request.method == "POST":
+
+        sUserId =  request.session.get('sUserId')
+        if not os.path.isdir('C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/' + sUserId):
+            os.mkdir('C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/' + sUserId)
+
+            text_config = open("C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/"+ sUserId +"/config.py", "w")
+            text_config.write("token = '" + request.POST.get('tgToken')+ "'")
+
+            shutil.copyfile("C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/main.py", "C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/"+ sUserId +"/main.py")
+            # text_main = open(sUserId + "C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/main.py", "w")
+            # text_main.write("token = '" + request.POST.get('tgToken')+ "'")
+
+
+        subprocess.Popen(['python3', 'C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/main.py'])
+
     return render(request, 'volt/mybots.html', check_auth(request))
 
 def pay(request):
