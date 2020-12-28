@@ -41,7 +41,7 @@ def mybots(request):
 
 
 
-        subprocess.Popen(['python', cDir + '/tgstart2/bots/'+ sUserId +'/main.py'])
+        subprocess.Popen(['python3', cDir + '/tgstart2/bots/'+ sUserId +'/main.py'])
 
     return render(request, 'volt/mybots.html', check_auth(request))
 
