@@ -29,18 +29,19 @@ def mybots(request):
     if request.method == "POST":
 
         sUserId =  request.session.get('sUserId')
-        if not os.path.isdir('C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/' + sUserId):
-            os.mkdir('C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/' + sUserId)
+        cDir = os.getcwd()
+        if not os.path.isdir(cDir + '/tgstart2/bots/' + sUserId):
 
-            text_config = open("C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/"+ sUserId +"/config.py", "w")
+            os.mkdir(cDir + '/tgstart2/bots/' + sUserId)
+
+            text_config = open(cDir + "/tgstart2/bots/"+ sUserId +"/config.py", "w")
             text_config.write("token = '" + request.POST.get('tgToken')+ "'")
 
-            shutil.copyfile("C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/main.py", "C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/"+ sUserId +"/main.py")
-            # text_main = open(sUserId + "C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/main.py", "w")
-            # text_main.write("token = '" + request.POST.get('tgToken')+ "'")
+            shutil.copyfile(cDir + "/tgstart2/bots/main.py", cDir + "/tgstart2/bots/"+ sUserId +"/main.py")
 
 
-        subprocess.Popen(['python3', 'C:/Users/fdsfd\github/tgstart/tgstart/tgstart2/bots/main.py'])
+
+        subprocess.Popen(['python', cDir + '/tgstart2/bots/'+ sUserId +'/main.py'])
 
     return render(request, 'volt/mybots.html', check_auth(request))
 
