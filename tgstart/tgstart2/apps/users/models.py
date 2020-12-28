@@ -14,3 +14,8 @@ class User(models.Model):
 	class Meta:
 		verbose_name = "Пользователь"
 		verbose_name_plural = "Пользователи"
+
+# 
+# class Bot(models.Model):
+# 	user_name = models.ForeginKey(User, on_delete = models.CASCADE)
+#     bot = models.CharField('bot_id', max_length = 30)
