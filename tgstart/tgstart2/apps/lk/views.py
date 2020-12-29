@@ -29,7 +29,7 @@ def mybots(request):
     if request.method == "POST":
 #assigning a option(template) to a bot
         cUser = User.objects.get(id = request.session.get('sUserId'))
-        cUser.bot_set.create(option = request.POST.get('exampleRadios'))
+        cUser.bot_set.create(option = request.POST.get('exampleRadios'), token = request.POST.get('tgToken'))
         cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
 
 #Creating a directory for a user's bot
