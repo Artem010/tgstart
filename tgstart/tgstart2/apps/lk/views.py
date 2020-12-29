@@ -48,7 +48,7 @@ def mybots(request):
         print((cUser.bot_set.all())[0].id)
 
 
-        subprocess.Popen(['python3', cDir + sUserId +'/main.py'])
+        subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
 
     return render(request, 'volt/mybots.html', check_auth(request))
 
