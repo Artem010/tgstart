@@ -12,7 +12,7 @@ class UserForm(forms.Form):
     username= forms.CharField(max_length=100)
     first_name= forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
-    id_user = forms.CharField(max_length=100)
+    tg_id = forms.CharField(max_length=100)
 
 
 
@@ -22,7 +22,7 @@ def auth(request):
     username=''
     first_name=''
     last_name=''
-    id_user=''
+    tg_id=''
 
     if request.method == "POST":
         print('NEW request!!')
@@ -33,15 +33,18 @@ def auth(request):
 
 
 
-        currentUser = User.objects.filter(id_user=form.cleaned_data.get("id_user")).exists()
+        currentUser = User.objects.filter(tg_id=form.cleaned_data.get("tg_id")).exists()
         if not currentUser:
             username= form.cleaned_data.get("username")
             first_name= form.cleaned_data.get("first_name")
             last_name= form.cleaned_data.get("last_name")
-            id_user= form.cleaned_data.get("id_user")
-            a = User(user_name = username, user_firstname=first_name, user_lastname=last_name, id_user =id_user)
+            tg_id= form.cleaned_data.get("tg_id")
+            a = User(user_name = username, user_firstname=first_name, user_lastname=last_name, tg_id =tg_id)
             a.save()
-        request.session['sUserId'] = form.cleaned_data.get("id_user")
+        currentUser = User.objects.filter(tg_id=form.cleaned_data.get("tg_id"))
+        print(currentUser[0].id)
+
+        request.session['sUserId'] = currentUser[0].id
         return redirect('/dashboard')
 
 

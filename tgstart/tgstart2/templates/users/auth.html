@@ -112,8 +112,8 @@
 
 		<form class="blanrform" action="" method="POST" id='form1'>
 		{% csrf_token %}
-			<label for="id_username">Username:</label>
-			<input type="text" name="username" value="5" maxlength="100"  id="id_username"></p>
+			<label for="tg_idname">Username:</label>
+			<input type="text" name="username" value="5" maxlength="100"  id="tg_idname"></p>
 
 			<label for="id_first_name">First name:</label>
 			<input type="text" name="first_name" value="5" maxlength="100"  id="id_first_name">
@@ -121,8 +121,8 @@
 			<label for="id_last_name">Last name:</label>
 			<input type="text" name="last_name" value="5" maxlength="100"  id="id_last_name">
 
-			<label for="id_id_user">Id user:</label>
-			<input type="text" name="id_user" value="5" maxlength="100" required="" id="id_id_user">
+			<label for="id_tg_id">Id user:</label>
+			<input type="text" name="tg_id" value="5" maxlength="100" required="" id="id_tg_id">
 
 			<input type="Submit" id='sub' name="submit" value="Submit">
 		</form>
@@ -131,9 +131,9 @@
 	<script>
 	function onTelegramAuth(user) {
 	if(user.username == undefined){
-		$('#id_username').val("none");
+		$('#tg_idname').val("none");
 	}else{
-		$('#id_username').val(user.username);
+		$('#tg_idname').val(user.username);
 	}
 	$('#id_first_name').val(user.first_name);
 	if(user.last_name == undefined){
@@ -141,7 +141,7 @@
 	}else{
 		$('#id_last_name').val(user.last_name);
 	}
-	$('#id_id_user').val(user.id);
+	$('#id_tg_id').val(user.id);
 	$('#sub').click();
 	}
 

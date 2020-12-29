@@ -17,8 +17,7 @@ def check_auth(request):
         return redirect('/')
 
     sUserId = sessionUserId
-    uData = User.objects.filter(id_user = sUserId)
-
+    uData = User.objects.filter(id = sUserId)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0]}
 
 def dashboard(request):
@@ -26,19 +25,27 @@ def dashboard(request):
 
 def mybots(request):
 
+
     if request.method == "POST":
+#assigning a option(template) to a bot
+        cUser = User.objects.get(id = request.session.get('sUserId'))
+        cUser.bot_set.create(option = request.POST.get('exampleRadios'))
+        cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
 
-        sUserId =  request.session.get('sUserId')
-        cDir = os.getcwd()
-        if not os.path.isdir(cDir + '/tgstart2/bots/' + sUserId):
+#Creating a directory for a user's bot
+        sUserId = str(request.session.get('sUserId'))
+        cDir = os.getcwd() + '/tgstart2/bots/'
+        if not os.path.isdir(cDir +sUserId):
+            os.mkdir(cDir + sUserId)
+        if not os.path.isdir(cDir +  sUserId + "/" + cBotId):
+            os.mkdir(cDir + sUserId + "/" + cBotId)
 
-            os.mkdir(cDir + '/tgstart2/bots/' + sUserId)
 
-            text_config = open(cDir + "/tgstart2/bots/"+ sUserId +"/config.py", "w")
-            text_config.write("token = '" + request.POST.get('tgToken')+ "'")
+        text_config = open(cDir + sUserId + "/" + cBotId +"/config.py", "w")
+        text_config.write("token = '" + request.POST.get('tgToken')+ "'")
+        shutil.copyfile(cDir + "/main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
-            shutil.copyfile(cDir + "/tgstart2/bots/main.py", cDir + "/tgstart2/bots/"+ sUserId +"/main.py")
-
+        print((cUser.bot_set.all())[0].id)
 
 
         subprocess.Popen(['python3', cDir + '/tgstart2/bots/'+ sUserId +'/main.py'])
@@ -57,10 +64,7 @@ def users(request):
 def profile(request):
 
     if request.method == "POST":
-        # print(request.POST.get('last_name'))
-        # print(request.POST.get('user_email'))
-
-        cUser = User.objects.get(id_user=request.session.get('sUserId'))
+        cUser = User.objects.get(tg_id=request.session.get('sUserId'))
         cUser.user_lastname = request.POST.get('last_name')
         cUser.user_email = request.POST.get('user_email')
         cUser.save()
