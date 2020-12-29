@@ -43,7 +43,7 @@ def mybots(request):
 
         text_config = open(cDir + sUserId + "/" + cBotId +"/config.py", "w")
         text_config.write("token = '" + request.POST.get('tgToken')+ "'")
-        shutil.copyfile(cDir + "/main.py", cDir + sUserId + "/" + cBotId +"/main.py")
+        shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
         print((cUser.bot_set.all())[0].id)
 
