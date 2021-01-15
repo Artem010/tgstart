@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 
 import os
-import  subprocess
+import subprocess
 import shutil
 
 
@@ -42,15 +42,23 @@ def mybots(request):
 
 
         text_config = open(cDir + sUserId + "/" + cBotId +"/config.py", "w")
-        text_config.write("token = '" + request.POST.get('tgToken')+ "'")
+        text_config.write("token = '" + request.POST.get('tgToken')+ "'\n")
+        text_config.write("user_id = '" + sUserId+ "'\n")
+        text_config.write("bot_id = '" + cBotId+ "'\n")
         shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
-        print((cUser.bot_set.all())[0].id)
-
+        # print((cUser.bot_set.all())[0].id)
 
         subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
 
-    return render(request, 'volt/mybots.html', check_auth(request))
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+# Кол-во ботов юзера
+    print(cUser.bot_set.all().count())
+
+
+
+
+    return render(request, 'volt/mybots.html', {'bots':cUser.bot_set.all(), 'auth': check_auth(request)})
 
 def pay(request):
     return render(request, 'volt/pay.html', check_auth(request))
@@ -64,7 +72,7 @@ def users(request):
 def profile(request):
 
     if request.method == "POST":
-        cUser = User.objects.get(tg_id=request.session.get('sUserId'))
+        cUser = User.objects.get(id=request.session.get('sUserId'))
         cUser.user_lastname = request.POST.get('last_name')
         cUser.user_email = request.POST.get('user_email')
         cUser.save()

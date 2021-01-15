@@ -19,7 +19,9 @@ class Bot(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	# bot_id = models.CharField('bot_id', max_length = 30)
 	option = models.CharField('Option', max_length = 30)
+	bot_name = models.CharField('Bot Name', max_length = 30)
 	token = models.CharField('Token', max_length = 100)
+	status = models.IntegerField('Status', default=1)
 
 	def __str__(self):
 		return (str(self.id) + "_" + str(self.user))

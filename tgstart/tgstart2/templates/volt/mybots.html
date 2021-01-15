@@ -44,7 +44,7 @@
       <!-- <a class="nav-link" href="#">Sign out</a> -->
       <a class="nav-link" href="/logout">
 
-        {{uData.user_firstname}} {{uData.user_lastname}}
+        {{auth.uData.user_firstname}} {{auth.uData.user_lastname}}
       </a>
     </li>
     <!-- <li class="nav-item text-nowrap">
@@ -136,48 +136,90 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Мои боты</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
+
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Создать Бота
           </button>
         </div>
       </div>
 
-      <div class="alert alert-light" role="alert">
-        Для начала необходимо создать бота в <a href="https://t.me/botfather">BotFather</a>,
-        скопировать полученный токен и вставить в поле ниже. Инструкция: Как создать бота в BotFather
-      </div>
-      <form class="form-inline" action="" method="post">
-        {% csrf_token %}
-        <div class="form-group mb-2">
-          <label class="errorLine sr-only"></label><br>
-            <label for="" class="sr-only">Бот токен:</label>
-            <input class="tgToketnInput form-control" autocomplete="off" type="text" name="tgToken" id="tgToken" value="">
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-light" role="alert">
+                Для начала необходимо создать бота в <a href="https://t.me/botfather">BotFather</a>,
+                скопировать полученный токен и вставить в поле ниже. Инструкция: Как создать бота в BotFather
+              </div>
+              <form class="form-inline" action="" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                  <label class="errorLine sr-only"></label><br>
+                    <label for="" class="sr-only">Бот токен:</label>
+                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="tgToken" id="tgToken" value="">
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                <label class="form-check-label" for="exampleRadios1">
+                  Эхо-бот
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                <label class="form-check-label" for="exampleRadios2">
+                  Командир
+                </label>
+              </div>
+              <div class="form-check disabled">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+                <label class="form-check-label" for="exampleRadios3">
+                  Онлайн магазин
+                </label>
+              </div>
+              <input type="submit" disabled value="Создать бота" class="createBot btn btn-primary"></input>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
         </div>
-        <div class="form-check">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-        <label class="form-check-label" for="exampleRadios1">
-          Эхо-бот
-        </label>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-        <label class="form-check-label" for="exampleRadios2">
-          Командир
-        </label>
+
+
+  {%for i in bots %}
+      <div class="card" style="width: 18rem;">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="text-center card-body">
+          <h5 class="card-title">{{i.id}}</h5>
+          <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+        </div>
+        <ul class="list-group list-group-flush">
+            {%if i.status == 1%}
+              <li class="text-success list-group-item">Статус: Активно</li>
+            {%else%}
+              <li class="text-danger list-group-item">Статус: Неактивно</li>
+            {% endif %}
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Редактировать</a>
+          <a href="#" class="text-danger card-link">Выключить</a>
+        </div>
       </div>
-      <div class="form-check disabled">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-        <label class="form-check-label" for="exampleRadios3">
-          Онлайн магазин
-        </label>
-      </div>
-      <input type="submit" disabled value="Создать бота" class="createBot btn btn-primary"></input>
-      </form>
+{%endfor%}
+
 
       <script>
         $('.tgToketnInput').on('input', function(){
