@@ -199,7 +199,7 @@
 <div class="container">
   <div class="row">
   {%for i in bots %}
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 22rem;">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="text-center card-body">
           <h5 class="card-title">{{i.id}}</h5>
@@ -216,7 +216,8 @@
         </ul>
         <div class="card-body">
           <a href="#" class="card-link">Редактировать</a>
-          <a href="/mybots/removebot?id={{i.id}}"  class="text-danger card-link">Выключить</a>
+          <a href="#"  class=" card-link">Выключить</a>
+          <a href="/mybots/removebot?id={{i.id}}"  class="text-danger card-link">Удалить бота</a>
           <!-- <a href="#" class="text-danger card-link">E</a> -->
         </div>
       </div>
