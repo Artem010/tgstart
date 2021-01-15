@@ -58,7 +58,7 @@ def mybots(request):
 
 
 
-    return render(request, 'volt/mybots.html', {'bots':cUser.bot_set.all(), 'auth': check_auth(request)})
+    return render(request, 'volt/mybots.html', {'bots':cUser.bot_set.all().order_by('-id'), 'auth': check_auth(request)})
 
 def pay(request):
     return render(request, 'volt/pay.html', check_auth(request))
