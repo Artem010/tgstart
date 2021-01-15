@@ -16,6 +16,7 @@ urlpatterns = [
 	path('dashboard/', views.dashboard, name = 'dashboard'),
 	path('profile/', views.profile, name = 'profile'),
 	path('mybots/', views.mybots, name = 'mybots'),
+	path('mybots/removebot', views.removebot, name = 'removebot'),
 	path('pay/', views.pay, name = 'pay'),
 	path('senders/', views.senders, name = 'senders'),
 	path('users/', views.users, name = 'users'),
