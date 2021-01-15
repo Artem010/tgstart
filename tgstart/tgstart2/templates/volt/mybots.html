@@ -196,7 +196,8 @@
         </div>
       </div>
 
-
+<div class="container">
+  <div class="row">
   {%for i in bots %}
       <div class="card" style="width: 18rem;">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
@@ -218,9 +219,9 @@
           <a href="#" class="text-danger card-link">Выключить</a>
         </div>
       </div>
-{%endfor%}
-
-
+  {%endfor%}
+  </div>
+</div>
       <script>
         $('.tgToketnInput').on('input', function(){
         let val = $(this).val();
