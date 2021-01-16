@@ -202,7 +202,7 @@
       <div class="card" style="width: 22rem;">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="text-center card-body">
-          <h5 class="card-title">{{i.id}}</h5>
+          <h5 class="card-title">{{i.bot_name}}</h5>
           <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
         </div>
         <ul class="list-group list-group-flush">
@@ -216,7 +216,11 @@
         </ul>
         <div class="card-body">
           <a href="#" class="card-link">Редактировать</a>
-          <a href="#"  class=" card-link">Выключить</a>
+          {%if i.status == 1%}
+            <a href="/mybots/deactivatebot?id={{i.id}}"  class=" card-link">Отклюить</a>
+          {%else%}
+            <a href="/mybots/activatebot?id={{i.id}}"  class=" card-link">Включить</a>
+          {%endif%}
           <a href="/mybots/removebot?id={{i.id}}"  class="text-danger card-link">Удалить бота</a>
           <!-- <a href="#" class="text-danger card-link">E</a> -->
         </div>

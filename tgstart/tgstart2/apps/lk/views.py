@@ -6,6 +6,9 @@ import os
 import subprocess
 import shutil
 import datetime
+import json
+import signal
+import requests
 
 from django.db import models
 from users.models import User
@@ -43,6 +46,29 @@ def removebot(request):
     print("*******del bot*******")
     return redirect('/mybots')
 
+def activatebot(request):
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    cBotId =request.GET['id']
+    cBot = cUser.bot_set.get(id = cBotId)
+    cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
+    print (cDir + str(request.session.get('sUserId')) + "/" + str(cBotId) +'/main.py')
+    pr = subprocess.Popen(['python', cDir +'/main.py'])
+    print('pID ' + str(pr.pid))
+
+    cUser.bot_set.filter(id=cBotId).update(pID = pr.pid, status = 1)
+
+    print("*******Activated bot*******")
+    return redirect('/mybots')
+
+def deactivatebot(request):
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    cBotId =request.GET['id']
+    cBot = cUser.bot_set.get(id = cBotId)
+    os.kill(cBot.pID, signal.SIGTERM)
+    cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
+    print("*******deactivated bot*******")
+    return redirect('/mybots')
+
 def dashboard(request):
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
@@ -65,7 +91,20 @@ def mybots(request):
     if request.method == "POST":
 #assigning a option(template) to a bot
         cUser = User.objects.get(id = request.session.get('sUserId'))
-        cUser.bot_set.create(option = request.POST.get('exampleRadios'), token = request.POST.get('tgToken'))
+
+        requestAPI = requests.get('https://api.telegram.org/bot'+request.POST.get('tgToken')+'/getMe')
+        parsed_string = json.loads(requestAPI.content)
+        if (parsed_string['ok']):
+            cBotFirstName = parsed_string['result']['first_name']
+            cBotGlobalId = parsed_string['result']['id']
+            cBotUsername = parsed_string['result']['username']
+        else:
+            cBotFirstName= 'none'
+            cBotGlobalId= 'none'
+            cBotUsername= 'none'
+        print(cBotFirstName)
+
+        cUser.bot_set.create(option = request.POST.get('exampleRadios'), token = request.POST.get('tgToken'), bot_name = cBotFirstName, global_id= cBotGlobalId, bot_username =cBotUsername )
         cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
 
         cBot = cUser.bot_set.get(id = cBotId)
@@ -73,7 +112,8 @@ def mybots(request):
         now = datetime.datetime.now()
         startDate = now.strftime("%d-%m-%Y")
 
-        cBot.messages_set.create(count = 0, date =startDate )
+
+        cBot.messages_set.create(count = 0, date =startDate)
 
 
 #Creating a directory for a user's bot
@@ -95,12 +135,16 @@ def mybots(request):
 
         # print((cUser.bot_set.all())[0].id)
 
-        subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
+        pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
+        print('pID ' + str(pr.pid))
+
+        cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
+
         # subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
 # Кол-во ботов юзера
-    print(cUser.bot_set.all().count())
+    # print(cUser.bot_set.all().count())
 
     now = datetime.datetime.now()
     startDate = now.strftime("%d-%m-%Y")
