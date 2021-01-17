@@ -6,11 +6,12 @@ import os
 import datetime
 
 bot = telebot.TeleBot(config.token)
-
-msgs = 0
 cDir = os.getcwd() + '/tgstart2/bots/' + config.user_id + "/" + config.bot_id
-print(cDir)
 
+f = open(cDir+"/stat.py", "r")
+msgs = int(f.read())
+
+print(msgs)
 def updStat():
     global msgs
     msgs += 2
