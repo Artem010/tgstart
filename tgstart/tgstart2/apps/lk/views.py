@@ -144,7 +144,7 @@ def mybots(request):
 
 
         pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
-        # pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
+        pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
         cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
 
 
