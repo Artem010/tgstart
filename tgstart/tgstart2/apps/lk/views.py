@@ -13,17 +13,21 @@ import requests
 from django.db import models
 from users.models import User
 
+# *****custom Def******
 
 def updStat(botID,userID, count):
     cUser = User.objects.get(id = userID)
     cBot = cUser.bot_set.get(id = botID)
 
     now = datetime.datetime.now()
-    startDate = now.strftime("%d-%m-%Y")
+    cDate = now.strftime("%d-%m-%Y")
 
-    cBot.messages_set.filter(date =startDate).update(count = count)
-    # cBot.messages_set.create(date ='10-01-2021', count = 11)
-
+    if ((cBot.messages_set.filter(date = cDate)).exists()):
+        cBot.messages_set.filter(date =cDate).update(count = count)
+        print('UPD')
+    else:
+        cBot.messages_set.create(date =cDate, count = count)
+        print('create')
 
     return cBot.messages_set.filter(bot_name_id = botID)
 
@@ -36,10 +40,17 @@ def check_auth(request):
     uData = User.objects.filter(id = sUserId)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0]}
 
-def removebot(request):
+def getCurrentBotByGET():
     cUser = User.objects.get(id = request.session.get('sUserId'))
     cBotId =request.GET['id']
     cBot = cUser.bot_set.get(id = cBotId)
+
+
+# *****custom Def******
+
+
+def removebot(request):
+    cBot = getCurrentBotByGET()
     cBot.delete();
     path = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
     shutil.rmtree(path)
@@ -47,23 +58,15 @@ def removebot(request):
     return redirect('/mybots')
 
 def activatebot(request):
-    cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
-    cBot = cUser.bot_set.get(id = cBotId)
+    cBot = getCurrentBotByGET()
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
-    print (cDir + str(request.session.get('sUserId')) + "/" + str(cBotId) +'/main.py')
     pr = subprocess.Popen(['python', cDir +'/main.py'])
-    print('pID ' + str(pr.pid))
-
     cUser.bot_set.filter(id=cBotId).update(pID = pr.pid, status = 1)
-
     print("*******Activated bot*******")
     return redirect('/mybots')
 
 def deactivatebot(request):
-    cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
-    cBot = cUser.bot_set.get(id = cBotId)
+    cBot = getCurrentBotByGET()
     os.kill(cBot.pID, signal.SIGTERM)
     cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
     print("*******deactivated bot*******")
@@ -75,7 +78,6 @@ def dashboard(request):
     print((cUser.bot_set.all()).count())
     if((cUser.bot_set.all()).count() > 0):
         cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
-        # updStat()
         cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId+"/stat.py"
         f = open(cDir)
         count = f.read()
@@ -106,9 +108,7 @@ def mybots(request):
 
         cUser.bot_set.create(option = request.POST.get('exampleRadios'), token = request.POST.get('tgToken'), bot_name = cBotFirstName, global_id= cBotGlobalId, bot_username =cBotUsername )
         cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
-
         cBot = cUser.bot_set.get(id = cBotId)
-
         now = datetime.datetime.now()
         startDate = now.strftime("%d-%m-%Y")
 
@@ -124,7 +124,6 @@ def mybots(request):
         if not os.path.isdir(cDir +  sUserId + "/" + cBotId):
             os.mkdir(cDir + sUserId + "/" + cBotId)
 
-
         text_config = open(cDir + sUserId + "/" + cBotId +"/config.py", "w")
         text_config.write("token = '" + request.POST.get('tgToken')+ "'\n")
         text_config.write("user_id = '" + sUserId+ "'\n")
@@ -133,22 +132,13 @@ def mybots(request):
         text_config.write("0")
         shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
-        # print((cUser.bot_set.all())[0].id)
 
         pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
-        print('pID ' + str(pr.pid))
-
+        # pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
         cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
 
-        # subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
-# Кол-во ботов юзера
-    # print(cUser.bot_set.all().count())
-
-    now = datetime.datetime.now()
-    startDate = now.strftime("%d-%m-%Y")
-    print (startDate)
 
 
     return render(request, 'volt/mybots.html', {'bots':cUser.bot_set.all().order_by('-id'), 'auth': check_auth(request)})
