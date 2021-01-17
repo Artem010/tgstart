@@ -42,7 +42,7 @@
       <!-- <a class="nav-link" href="#">Sign out</a> -->
       <a class="nav-link" href="/logout">
 
-        {{uData.user_firstname}} {{uData.user_lastname}}
+        {{auth.uData.user_firstname}} {{auth.uData.user_lastname}}
       </a>
     </li>
     <!-- <li class="nav-item text-nowrap">
@@ -149,15 +149,27 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>#</th>
+            <th>avatar</th>
+            <th>id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>
           </tr>
         </thead>
         <tbody>
+          {%if usersData != 0%}
+            {%for i in usersData%}
+              <tr>
+                <td><img width="50px" height="50px" src="https://api.telegram.org/file/bot1232892296:AAGA66S8lNtguuw-xf_gQxI1s_w-aE10bKQ/{{i.pathAvatar}}" alt=""></td>
+                <th>{{i.tg_id}}</th>
+                <td>{{i.first_name}}</td>
+                <td>{{i.last_name}}</td>
+                <td>{{i.username}}</td>
+              </tr>
+            {%endfor%}
+          {%endif%}
           <tr>
-            <th scope="row">1</th>
+            <th>1</th>
             <td>Mark</td>
             <td>Otto</td>
             <td>@mdo</td>

@@ -32,6 +32,21 @@ class Bot(models.Model):
 		verbose_name = "Бот"
 		verbose_name_plural = "Боты"
 
+class BotUser(models.Model):
+	bot_name = models.ForeignKey(Bot, on_delete = models.CASCADE)
+	username = models.CharField('Username', max_length = 30)
+	first_name = models.TextField('Имя', max_length = 30)
+	last_name = models.TextField('Фамилия', max_length = 30)
+	tg_id = models.CharField('Id telegram', max_length = 10)
+	pathAvatar = models.CharField('Avatar Path ', max_length = 200)
+
+	def __str__(self):
+		return (str(self.bot_name))
+
+	class Meta:
+		verbose_name = "Пользователь Бота"
+		verbose_name_plural = "Пользователи Бота"
+
 class Messages(models.Model):
 	bot_name = models.ForeignKey(Bot, on_delete = models.CASCADE)
 	count = models.IntegerField('Count', default=0)
