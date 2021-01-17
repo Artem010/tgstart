@@ -160,7 +160,7 @@
           {%if usersData != 0%}
             {%for i in usersData%}
               <tr>
-                <td><img width="50px" height="50px" src="https://api.telegram.org/file/bot1232892296:AAGA66S8lNtguuw-xf_gQxI1s_w-aE10bKQ/{{i.pathAvatar}}" alt=""></td>
+                <td><img width="50px" height="50px" src="https://api.telegram.org/file/bot{{tgToken}}/{{i.pathAvatar}}" alt=""></td>
                 <th>{{i.tg_id}}</th>
                 <td>{{i.first_name}}</td>
                 <td>{{i.last_name}}</td>
