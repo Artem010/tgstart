@@ -58,6 +58,7 @@ def removebot(request):
     path = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
     shutil.rmtree(path)
     print("*******del bot*******")
+    deactivatebot(request)
     return redirect('/mybots')
 
 def activatebot(request):
@@ -139,7 +140,7 @@ def mybots(request):
         text_config.write("user_id = '" + sUserId+ "'\n")
         text_config.write("bot_id = '" + cBotId+ "'\n")
         text_config = open(cDir + sUserId + "/" + cBotId +"/stat.json", "w")
-        text_config.write('{"msgs": 0}')
+        text_config.write('{"msgs": 0,"users": []}')
         shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
 
@@ -160,8 +161,31 @@ def senders(request):
     return render(request, 'volt/senders.html', check_auth(request))
 
 def users(request):
-    return render(request, 'volt/users.html', check_auth(request))
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    print((cUser.bot_set.all()).count())
+    if((cUser.bot_set.all()).count() > 0):
+        cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
+        cBot = cUser.bot_set.get(id = cBotId)
 
+        cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
+        with open(cDir+"/stat.json", "r") as read_file:
+            data = json.load(read_file)
+
+        data = data['users']
+        for u in data:
+            print(u)
+            if (not cBot.botuser_set.filter(tg_id = u['tg_id']).exists()):
+                cBot.botuser_set.create(username = u['username'], first_name =  u['first_name'],last_name =  u['last_name'],tg_id =  u['tg_id'], pathAvatar =u['pathAvatar'] )
+        print(data)
+        usersData = cBot.botuser_set.all()
+    else:
+        usersData = 0;
+
+    #     dataChart = updStat(cBotId, request.session.get('sUserId'), count)
+    # else:
+    #     dataChart = '0'
+
+    return render(request, 'volt/users.html', {'usersData':usersData, 'auth': check_auth(request)})
 def profile(request):
 
     if request.method == "POST":
