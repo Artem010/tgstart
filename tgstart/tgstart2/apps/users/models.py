@@ -36,3 +36,10 @@ class Messages(models.Model):
 	bot_name = models.ForeignKey(Bot, on_delete = models.CASCADE)
 	count = models.IntegerField('Count', default=0)
 	date = models.CharField('Date', max_length = 30)
+
+	def __str__(self):
+		return (str(self.bot_name))
+
+	class Meta:
+		verbose_name = "Сообщение"
+		verbose_name_plural = "Сообщения"

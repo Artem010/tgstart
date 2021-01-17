@@ -40,17 +40,20 @@ def check_auth(request):
     uData = User.objects.filter(id = sUserId)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0]}
 
-def getCurrentBotByGET():
-    cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
-    cBot = cUser.bot_set.get(id = cBotId)
+# def getCurrentBotByGET():
+#     cUser = User.objects.get(id = request.session.get('sUserId'))
+#     cBotId =request.GET['id']
+#     cBot = cUser.bot_set.get(id = cBotId)
 
 
 # *****custom Def******
 
 
 def removebot(request):
-    cBot = getCurrentBotByGET()
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    cBotId =request.GET['id']
+    cBot = cUser.bot_set.get(id = cBotId)
+
     cBot.delete();
     path = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
     shutil.rmtree(path)
@@ -58,7 +61,10 @@ def removebot(request):
     return redirect('/mybots')
 
 def activatebot(request):
-    cBot = getCurrentBotByGET()
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    cBotId =request.GET['id']
+    cBot = cUser.bot_set.get(id = cBotId)
+
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
     pr = subprocess.Popen(['python', cDir +'/main.py'])
     cUser.bot_set.filter(id=cBotId).update(pID = pr.pid, status = 1)
@@ -66,7 +72,10 @@ def activatebot(request):
     return redirect('/mybots')
 
 def deactivatebot(request):
-    cBot = getCurrentBotByGET()
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    cBotId =request.GET['id']
+    cBot = cUser.bot_set.get(id = cBotId)
+
     os.kill(cBot.pID, signal.SIGTERM)
     cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
     print("*******deactivated bot*******")
@@ -78,9 +87,10 @@ def dashboard(request):
     print((cUser.bot_set.all()).count())
     if((cUser.bot_set.all()).count() > 0):
         cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
-        cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId+"/stat.py"
-        f = open(cDir)
-        count = f.read()
+        cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
+        with open(cDir+"/stat.json", "r") as read_file:
+            data = json.load(read_file)
+        count = int(data['msgs'])
         dataChart = updStat(cBotId, request.session.get('sUserId'), count)
     else:
         dataChart = '0'
@@ -128,8 +138,8 @@ def mybots(request):
         text_config.write("token = '" + request.POST.get('tgToken')+ "'\n")
         text_config.write("user_id = '" + sUserId+ "'\n")
         text_config.write("bot_id = '" + cBotId+ "'\n")
-        text_config = open(cDir + sUserId + "/" + cBotId +"/stat.py", "w")
-        text_config.write("0")
+        text_config = open(cDir + sUserId + "/" + cBotId +"/stat.json", "w")
+        text_config.write('{"msgs": 0}')
         shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
 
