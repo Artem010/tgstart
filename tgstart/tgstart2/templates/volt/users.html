@@ -146,6 +146,8 @@
       </div>
 
 
+
+      {%if usersData != 0%}
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -160,46 +162,24 @@
           </tr>
         </thead>
         <tbody>
-          {%if usersData != 0%}
-            {%for i in usersData%}
-              <tr>
-                <td><img width="50px" height="50px" src="https://api.telegram.org/file/bot{{tgToken}}/{{i.pathAvatar}}" alt=""></td>
-                <td><a href="https://t.me/{{i.username}}">{{i.username}}</a></td>
-                <td>{{i.first_name}}</td>
-                <td>{{i.last_name}}</td>
-                <th>{{i.tg_id}}</th>
-                <th>{{i.dateReg}}</th>
-                <th><a href="">Написать сообщение</a></th>
-                <th><a href="">Удалить</a></th>
-              </tr>
-            {%endfor%}
+        {%for i in usersData%}
+          <tr>
+            <td><img width="50px" height="50px" src="https://api.telegram.org/file/bot{{tgToken}}/{{i.pathAvatar}}" alt=""></td>
+            <td><a href="https://t.me/{{i.username}}">{{i.username}}</a></td>
+            <td>{{i.first_name}}</td>
+            <td>{{i.last_name}}</td>
+            <th>{{i.tg_id}}</th>
+            <th>{{i.dateReg}}</th>
+            <th><a href="">Написать сообщение</a></th>
+            <th><a href="">Удалить</a></th>
+          </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+          {%else%}
+            <h2>Пользователей ещё нет😭</h2>
           {%endif%}
-          <tr>
-            <th>1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@TwBootstrap</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td colspan="1">Larry the Bird</td>
-            <td colspan="1">Last name</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+
 
 
     </main>
