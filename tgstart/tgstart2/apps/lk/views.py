@@ -185,6 +185,8 @@ def users(request):
                 cBot.botuser_set.create(username = u['username'], first_name =  u['first_name'],last_name =  u['last_name'],tg_id =  u['tg_id'], pathAvatar =u['pathAvatar'], dateReg = u['dateReg'] )
         print(data)
         usersData = cBot.botuser_set.all()
+        if((cBot.botuser_set.all()).count() == 0):
+            usersData = 0;
     else:
         usersData = 0;
         cBotToken = 0;

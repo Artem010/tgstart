@@ -34,16 +34,31 @@ def add_user(id, username, first_name, last_name, pathAvatar):
     now = datetime.datetime.now()
     cDate = now.strftime("%d-%m-%Y %H:%M")
 
-    user = {
-        'username':username,
-        'first_name':first_name,
-        'last_name':last_name,
-        'tg_id':id,
-        'pathAvatar': pathAvatar,
-        'dateReg': cDate
-        }
 
-    data['users'].append(user)
+    if(len(data['users']) != 0):
+        for u in data['users']:
+            if not (u['tg_id'] == id):
+                user = {
+                    'username':username,
+                    'first_name':first_name,
+                    'last_name':last_name,
+                    'tg_id':id,
+                    'pathAvatar': pathAvatar,
+                    'dateReg': cDate
+                    }
+
+                data['users'].append(user)
+    else:
+        user = {
+            'username':username,
+            'first_name':first_name,
+            'last_name':last_name,
+            'tg_id':id,
+            'pathAvatar': pathAvatar,
+            'dateReg': cDate
+            }
+
+        data['users'].append(user)
 
     with open(cDir+"/stat.json", "w") as write_file:
         json.dump(data, write_file)
