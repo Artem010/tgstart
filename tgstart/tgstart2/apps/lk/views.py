@@ -39,7 +39,7 @@ def check_auth(request):
     sUserId = sessionUserId
     uData = User.objects.filter(id = sUserId)
     url = request.path
-    print(url)
+    # print(url)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0], 'url': url}
 
 # def getCurrentBotByGET():
@@ -164,13 +164,13 @@ def mybots(request):
     return render(request, 'volt/mybots.html', {'bots':cUser.bot_set.all().order_by('-id'), 'auth': check_auth(request)})
 
 def pay(request):
-    return render(request, 'volt/pay.html', check_auth(request))
+    return render(request, 'volt/pay.html', {'auth': check_auth(request)})
 
 def sidebar(request):
     return render(request, 'volt/sidebar.html')
 
 def senders(request):
-    return render(request, 'volt/senders.html', check_auth(request))
+    return render(request, 'volt/senders.html', {'auth': check_auth(request)})
 
 def users(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
@@ -206,4 +206,4 @@ def profile(request):
         cUser.user_email = request.POST.get('user_email')
         cUser.save()
 
-    return render(request, 'volt/profile.html', check_auth(request))
+    return render(request, 'volt/profile.html', {'auth': check_auth(request)})
