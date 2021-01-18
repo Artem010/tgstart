@@ -39,6 +39,7 @@ class BotUser(models.Model):
 	last_name = models.TextField('Фамилия', max_length = 30)
 	tg_id = models.CharField('Id telegram', max_length = 10)
 	pathAvatar = models.CharField('Avatar Path ', max_length = 200)
+	dateReg = models.CharField('Дата регистрации', max_length = 200)
 
 	def __str__(self):
 		return (str(self.bot_name))

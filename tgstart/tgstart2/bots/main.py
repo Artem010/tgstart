@@ -13,7 +13,7 @@ with open(cDir+"/stat.json", "r") as read_file:
 msgs = int(data['msgs'])
 # print(data['msgopen(cDir+"open(cDir+"s'])
 
-print(msgs)
+# print(msgs)
 def updStat():
     global msgs
     msgs += 2
@@ -31,12 +31,16 @@ def add_user(id, username, first_name, last_name, pathAvatar):
     with open(cDir+"/stat.json", "r") as read_file:
         data = json.load(read_file)
 
+    now = datetime.datetime.now()
+    cDate = now.strftime("%d-%m-%Y %H:%M")
+
     user = {
         'username':username,
         'first_name':first_name,
         'last_name':last_name,
         'tg_id':id,
-        'pathAvatar': pathAvatar
+        'pathAvatar': pathAvatar,
+        'dateReg': cDate
         }
 
     data['users'].append(user)
@@ -58,6 +62,7 @@ def start_handler(message):
 
     add_user(str(message.chat.id), str(message.chat.username),str(message.chat.first_name),str(message.chat.last_name), file_info.file_path);
     bot.send_message(message.chat.id, 'User saved')
+
 
 
 

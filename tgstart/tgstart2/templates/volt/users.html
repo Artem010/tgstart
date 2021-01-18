@@ -151,9 +151,12 @@
           <tr>
             <th>avatar</th>
             <th>id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
             <th>Username</th>
+            <th>Дата регистрации</th>
+            <th>Message</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -161,10 +164,13 @@
             {%for i in usersData%}
               <tr>
                 <td><img width="50px" height="50px" src="https://api.telegram.org/file/bot{{tgToken}}/{{i.pathAvatar}}" alt=""></td>
-                <th>{{i.tg_id}}</th>
+                <td><a href="https://t.me/{{i.username}}">{{i.username}}</a></td>
                 <td>{{i.first_name}}</td>
                 <td>{{i.last_name}}</td>
-                <td>{{i.username}}</td>
+                <th>{{i.tg_id}}</th>
+                <th>{{i.dateReg}}</th>
+                <th><a href="">Написать сообщение</a></th>
+                <th><a href="">Удалить</a></th>
               </tr>
             {%endfor%}
           {%endif%}
