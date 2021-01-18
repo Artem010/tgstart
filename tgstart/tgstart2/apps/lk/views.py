@@ -163,8 +163,9 @@ def mybots(request):
 
 def pay(request):
     return render(request, 'volt/pay.html', check_auth(request))
+
 def sidebar(request):
-    return render(request, 'volt/sidebar.html',check_auth(request))
+    return render(request, 'volt/sidebar.html')
 
 def senders(request):
     return render(request, 'volt/senders.html', check_auth(request))
