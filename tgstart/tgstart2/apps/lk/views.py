@@ -73,7 +73,8 @@ def activatebot(request):
     cBot = cUser.bot_set.get(id = cBotId)
 
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
-    pr = subprocess.Popen(['python', cDir +'/main.py'])
+    # pr = subprocess.Popen(['python', cDir +'/main.py'])
+    pr = subprocess.Popen(['python3', cDir +'/main.py'])
     cUser.bot_set.filter(id=cBotId).update(pID = pr.pid, status = 1)
     print("*******Activated bot*******")
     return redirect('/mybots')
@@ -152,8 +153,8 @@ def mybots(request):
             shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
 
-            pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
-            # pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
+            # pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
+            pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
 
             cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
 
