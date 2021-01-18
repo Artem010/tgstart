@@ -32,15 +32,15 @@
         {% csrf_token %}
         <div class="form-group mb-2">
             <label for="" class="col-sm-1 col-form-label">Username:</label>
-            <input type="text" disabled value="{{uData.user_name}}">
+            <input type="text" disabled value="{{auth.uData.user_name}}">
         </div>
         <div class="form-group mb-2">
             <label for="" class="col-sm-1 col-form-label">Name:</label>
-            <input type="text" disabled value="{{uData.user_firstname}}">
+            <input type="text" disabled value="{{auth.uData.user_firstname}}">
         </div>
         <div class="form-group mb-2">
             <label for="" class="col-sm-1 col-form-label">Last name:</label>
-            <input type="text" id='last_name' name="last_name" value="{{uData.user_lastname}}">
+            <input type="text" id='last_name' name="last_name" value="{{auth.uData.user_lastname}}">
         </div>
         <input type="submit" value="Сохранить" class="btn btn-primary"></input>
       </form>
