@@ -22,4 +22,5 @@ urlpatterns = [
 	path('pay/', views.pay, name = 'pay'),
 	path('senders/', views.senders, name = 'senders'),
 	path('users/', views.users, name = 'users'),
+	path('sidebar/', views.sidebar, name = 'sidebar'),
 ]
