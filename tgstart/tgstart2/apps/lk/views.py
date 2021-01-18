@@ -50,6 +50,7 @@ def check_auth(request):
 
 
 def removebot(request):
+    deactivatebot(request)
     cUser = User.objects.get(id = request.session.get('sUserId'))
     cBotId =request.GET['id']
     cBot = cUser.bot_set.get(id = cBotId)
@@ -58,7 +59,6 @@ def removebot(request):
     path = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
     shutil.rmtree(path)
     print("*******del bot*******")
-    deactivatebot(request)
     return redirect('/mybots')
 
 def activatebot(request):
@@ -76,7 +76,7 @@ def deactivatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
     cBotId =request.GET['id']
     cBot = cUser.bot_set.get(id = cBotId)
-
+    print(cBot.pID)
     os.kill(cBot.pID, signal.SIGTERM)
     cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
     print("*******deactivated bot*******")
@@ -104,49 +104,52 @@ def mybots(request):
     if request.method == "POST":
 #assigning a option(template) to a bot
         cUser = User.objects.get(id = request.session.get('sUserId'))
+        if not (cUser.bot_set.filter(token=request.POST.get('tgToken')).exists()):
 
-        requestAPI = requests.get('https://api.telegram.org/bot'+request.POST.get('tgToken')+'/getMe')
-        parsed_string = json.loads(requestAPI.content)
-        if (parsed_string['ok']):
-            cBotFirstName = parsed_string['result']['first_name']
-            cBotGlobalId = parsed_string['result']['id']
-            cBotUsername = parsed_string['result']['username']
-        else:
-            cBotFirstName= 'none'
-            cBotGlobalId= 'none'
-            cBotUsername= 'none'
-        print(cBotFirstName)
+            requestAPI = requests.get('https://api.telegram.org/bot'+request.POST.get('tgToken')+'/getMe')
+            parsed_string = json.loads(requestAPI.content)
+            if (parsed_string['ok']):
+                cBotFirstName = parsed_string['result']['first_name']
+                cBotGlobalId = parsed_string['result']['id']
+                cBotUsername = parsed_string['result']['username']
+            else:
+                cBotFirstName= 'none'
+                cBotGlobalId= 'none'
+                cBotUsername= 'none'
+            print(cBotFirstName)
 
-        cUser.bot_set.create(option = request.POST.get('exampleRadios'), token = request.POST.get('tgToken'), bot_name = cBotFirstName, global_id= cBotGlobalId, bot_username =cBotUsername )
-        cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
-        cBot = cUser.bot_set.get(id = cBotId)
-        now = datetime.datetime.now()
-        startDate = now.strftime("%d-%m-%Y")
+            cUser.bot_set.create(option = request.POST.get('exampleRadios'), token = request.POST.get('tgToken'), bot_name = cBotFirstName, global_id= cBotGlobalId, bot_username =cBotUsername )
+            cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
+            cBot = cUser.bot_set.get(id = cBotId)
+            now = datetime.datetime.now()
+            startDate = now.strftime("%d-%m-%Y")
 
 
-        cBot.messages_set.create(count = 0, date =startDate)
+            cBot.messages_set.create(count = 0, date =startDate)
+
 
 
 #Creating a directory for a user's bot
-        sUserId = str(request.session.get('sUserId'))
-        cDir = os.getcwd() + '/tgstart2/bots/'
-        if not os.path.isdir(cDir +sUserId):
-            os.mkdir(cDir + sUserId)
-        if not os.path.isdir(cDir +  sUserId + "/" + cBotId):
-            os.mkdir(cDir + sUserId + "/" + cBotId)
+            sUserId = str(request.session.get('sUserId'))
+            cDir = os.getcwd() + '/tgstart2/bots/'
+            if not os.path.isdir(cDir +sUserId):
+                os.mkdir(cDir + sUserId)
+            if not os.path.isdir(cDir +  sUserId + "/" + cBotId):
+                os.mkdir(cDir + sUserId + "/" + cBotId)
 
-        text_config = open(cDir + sUserId + "/" + cBotId +"/config.py", "w")
-        text_config.write("token = '" + request.POST.get('tgToken')+ "'\n")
-        text_config.write("user_id = '" + sUserId+ "'\n")
-        text_config.write("bot_id = '" + cBotId+ "'\n")
-        text_config = open(cDir + sUserId + "/" + cBotId +"/stat.json", "w")
-        text_config.write('{"msgs": 0,"users": []}')
-        shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
+            text_config = open(cDir + sUserId + "/" + cBotId +"/config.py", "w")
+            text_config.write("token = '" + request.POST.get('tgToken')+ "'\n")
+            text_config.write("user_id = '" + sUserId+ "'\n")
+            text_config.write("bot_id = '" + cBotId+ "'\n")
+            text_config = open(cDir + sUserId + "/" + cBotId +"/stat.json", "w")
+            text_config.write('{"msgs": 0,"users": []}')
+            shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
 
-        pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
-        pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
-        cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
+            pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
+            # pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
+
+            cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
 
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
@@ -166,7 +169,7 @@ def users(request):
     if((cUser.bot_set.all()).count() > 0):
         cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
         cBot = cUser.bot_set.get(id = cBotId)
-
+        cBotToken = cBot.token
         cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
         with open(cDir+"/stat.json", "r") as read_file:
             data = json.load(read_file)
@@ -180,12 +183,10 @@ def users(request):
         usersData = cBot.botuser_set.all()
     else:
         usersData = 0;
+        cBotToken = 0;
 
-    #     dataChart = updStat(cBotId, request.session.get('sUserId'), count)
-    # else:
-    #     dataChart = '0'
 
-    return render(request, 'volt/users.html', {'usersData':usersData, 'auth': check_auth(request)})
+    return render(request, 'volt/users.html', {'usersData':usersData, 'tgToken':cBotToken, 'auth': check_auth(request)})
 def profile(request):
 
     if request.method == "POST":

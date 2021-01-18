@@ -215,9 +215,9 @@
           <li class="list-group-item">Vestibulum at eros</li>
         </ul>
         <div class="card-body">
-          <a href="#" class="card-link">Редактировать</a>
+          <a  >Редактировать</a>
           {%if i.status == 1%}
-            <a href="/mybots/deactivatebot?id={{i.id}}"  class=" card-link">Отклюить</a>
+            <a href="/mybots/deactivatebot?id={{i.id}}"  class=" card-link">Отключить</a>
           {%else%}
             <a href="/mybots/activatebot?id={{i.id}}"  class=" card-link">Включить</a>
           {%endif%}
@@ -232,8 +232,6 @@
         $('.tgToketnInput').on('input', function(){
         let val = $(this).val();
         if(val.includes(':')) {
-          let len = (val.match(/\:/g)||[]).length;
-          <!-- $('.errorLine').text(`Плюса есть | их тут целых ${len}`).css('color', 'green'); -->
           $('.createBot').removeAttr('disabled');
           $('.errorLine').text('').css('color', 'red');
         } else {
