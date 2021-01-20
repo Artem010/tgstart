@@ -4,27 +4,38 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block head%}
-  
+
 {%endblock%}
 
 
 {%block mainContent%}
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Панель управления</h1>{{auth.url}}
+        <h1 class="h2">Панель управления</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button tpe="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {%if cBot%}
+              {{cBot.bot_name}}
+            {%else%}
+              Выберите бота
+            {%endif%}
           </button>
+          <div class="text-truncate dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {%for b in tgBots reversed %}
+
+            <a class="dropdown-item" href="?botID={{b.id}}">{{b.bot_name}}</a>
+            {%endfor%}
+          </div>
+
         </div>
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+
+        <div class="row justify-content">
+          <div class="col-md-6"><canvas class="my-4 w-100" id="myChart" >Your browser does not support the canvas element.</canvas></div>
+          <div class="col-md-6"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque officia quo et, debitis ut dignissimos earum tenetur sapiente quam perferendis ullam aspernatur distinctio doloribus vero facilis molestias, porro excepturi quas iusto ducimus odio veritatis aperiam. Perferendis impedit voluptas magni tempora debitis eaque aspernatur illum officia. Iusto architecto, minima culpa tenetur eius repudiandae animi, quos harum impedit itaque ipsam, fugit quaerat ab sunt odio iste voluptatibus inventore at minus numquam, atque illum. Dicta amet tempora, quos libero? Corporis molestias dolorum ullam obcaecati, placeat non pariatur, harum maxime sit voluptates labore similique nam iste sint, vero culpa nisi. Laudantium at cupiditate tempore voluptas a ipsum quas! Blanditiis dicta quia ut quos reprehenderit, unde, molestias cupiditate quasi fugiat nisi eum laborum! Unde, laborum, porro! Ad, porro ea numquam atque quidem nisi fugit minus vero similique, amet quis a nostrum inventore autem, consequuntur, reiciendis neque debitis culpa voluptas molestiae. Voluptate vero id voluptatem excepturi ex a architecto similique et reiciendis consequuntur ea soluta doloremque reprehenderit nihil odit veritatis, illum earum sequi nulla necessitatibus ab, tempora. Libero dignissimos aspernatur suscipit voluptatem non nam rem, et doloremque debitis maiores. Officiis dicta quasi voluptate magni autem odit, praesentium molestiae eveniet obcaecati inventore, officia laborum culpa dolor excepturi.</p></div>
+        </div>
+
 
 
     </main>
@@ -73,12 +84,26 @@
           }]
         },
         options: {
+          responsive: true,
+          tooltips: {
+  					mode: 'index',
+  					intersect: false,
+  				},
           scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: false
-              }
-            }]
+            xAxes: [{
+  						display: true,
+  						scaleLabel: {
+  							display: true,
+  							labelString: 'Дата'
+  						}
+  					}],
+  					yAxes: [{
+  						display: true,
+  						scaleLabel: {
+  							display: true,
+  							labelString: 'Кол-во сообщений'
+  						}
+  					}]
           },
           legend: {
             display: false

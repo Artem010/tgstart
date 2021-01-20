@@ -26,6 +26,7 @@ def auth(request):
 
     if request.method == "POST":
         print('NEW request!!')
+        
 
 
     form= UserForm(request.POST or None)
@@ -42,7 +43,7 @@ def auth(request):
             a = User(user_name = username, user_firstname=first_name, user_lastname=last_name, tg_id =tg_id)
             a.save()
         currentUser = User.objects.filter(tg_id=form.cleaned_data.get("tg_id"))
-        print(currentUser[0].id)
+        # print(currentUser[0].id)
 
         request.session['sUserId'] = currentUser[0].id
         return redirect('/dashboard')

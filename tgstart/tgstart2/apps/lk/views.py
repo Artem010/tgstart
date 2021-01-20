@@ -67,14 +67,20 @@ def removebot(request):
     print("*******del bot*******")
     return redirect('/mybots')
 
+def removeuser(request, botID, userID):
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    cBot = cUser.bot_set.get(id = botID)
+    cUser = cBot.botuser_set.get(id = userID)
+    cUser.delete()
+
 def activatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
     cBotId =request.GET['id']
     cBot = cUser.bot_set.get(id = cBotId)
 
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
-    # pr = subprocess.Popen(['python', cDir +'/main.py'])
-    pr = subprocess.Popen(['python3', cDir +'/main.py'])
+    pr = subprocess.Popen(['python', cDir +'/main.py'])
+    # pr = subprocess.Popen(['python3', cDir +'/main.py'])
     cUser.bot_set.filter(id=cBotId).update(pID = pr.pid, status = 1)
     print("*******Activated bot*******")
     return redirect('/mybots')
@@ -92,18 +98,19 @@ def deactivatebot(request):
 def dashboard(request):
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    print((cUser.bot_set.all()).count())
-    if((cUser.bot_set.all()).count() > 0):
-        cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
-        cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
-        with open(cDir+"/stat.json", "r") as read_file:
-            data = json.load(read_file)
-        count = int(data['msgs'])
-        dataChart = updStat(cBotId, request.session.get('sUserId'), count)
-    else:
-        dataChart = '0'
+    tgBots= cUser.bot_set.all()
 
-    return render(request, 'volt/dashboard.html', {'dataChart': dataChart, 'auth':check_auth(request)})
+    if 'botID' in request.GET:
+        if((cUser.bot_set.all()).count() > 0):
+            # print(tgBots[0].bot_name)
+            cBotId =str(request.GET.get('botID'))
+            cBot = cUser.bot_set.get(id = cBotId)
+            dataChart = cBot.messages_set.filter(bot_name_id = cBotId)
+        else:
+            dataChart = '0'
+    else:
+        return render(request, 'volt/dashboard.html', {'tgBots': tgBots, 'auth':check_auth(request)})
+    return render(request, 'volt/dashboard.html', {'dataChart': dataChart, 'cBot':cBot, 'tgBots': tgBots, 'auth':check_auth(request)})
 
 def mybots(request):
 
@@ -148,13 +155,11 @@ def mybots(request):
             text_config.write("token = '" + request.POST.get('tgToken')+ "'\n")
             text_config.write("user_id = '" + sUserId+ "'\n")
             text_config.write("bot_id = '" + cBotId+ "'\n")
-            text_config = open(cDir + sUserId + "/" + cBotId +"/stat.json", "w")
-            text_config.write('{"msgs": 0,"users": []}')
             shutil.copyfile(cDir + "main.py", cDir + sUserId + "/" + cBotId +"/main.py")
 
 
-            # pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
-            pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
+            pr = subprocess.Popen(['python', cDir + sUserId + "/" + cBotId +'/main.py'])
+            # pr = subprocess.Popen(['python3', cDir + sUserId + "/" + cBotId +'/main.py'])
 
             cUser.bot_set.filter(id=cBotId).update(pID = pr.pid)
 
@@ -175,30 +180,29 @@ def senders(request):
 
 def users(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    print((cUser.bot_set.all()).count())
-    if((cUser.bot_set.all()).count() > 0):
-        cBotId =str((cUser.bot_set.all())[(cUser.bot_set.all()).count()-1].id)
-        cBot = cUser.bot_set.get(id = cBotId)
-        cBotToken = cBot.token
-        cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+cBotId
-        with open(cDir+"/stat.json", "r") as read_file:
-            data = json.load(read_file)
+    tgBots= cUser.bot_set.all()
+    # print((cUser.bot_set.all()).count())
 
-        data = data['users']
-        for u in data:
-            print(u)
-            if (not cBot.botuser_set.filter(tg_id = u['tg_id']).exists()):
-                cBot.botuser_set.create(username = u['username'], first_name =  u['first_name'],last_name =  u['last_name'],tg_id =  u['tg_id'], pathAvatar =u['pathAvatar'], dateReg = u['dateReg'] )
-        print(data)
-        usersData = cBot.botuser_set.all()
-        if((cBot.botuser_set.all()).count() == 0):
+    if 'botID' and 'userID' in request.GET:
+        removeuser(request, request.GET.get('botID'), request.GET.get('userID'))
+
+    if 'botID' in request.GET:
+        if((cUser.bot_set.all()).count() > 0):
+            # print(tgBots[0].bot_name)
+            cBotId =str(request.GET.get('botID'))
+            cBot = cUser.bot_set.get(id = cBotId)
+            cBotToken = cBot
+
+            usersData = cBot.botuser_set.all()
+            if((cBot.botuser_set.all()).count() == 0):
+                usersData = 0;
+        else:
             usersData = 0;
+            cBotToken = 0;
     else:
-        usersData = 0;
-        cBotToken = 0;
+        return render(request, 'volt/users.html', {'tgBots':tgBots, 'auth': check_auth(request)})
 
-
-    return render(request, 'volt/users.html', {'usersData':usersData, 'tgToken':cBotToken, 'auth': check_auth(request)})
+    return render(request, 'volt/users.html', {'usersData':usersData, 'tgBots':tgBots, 'cBot':cBot, 'auth': check_auth(request)})
 def profile(request):
 
     if request.method == "POST":
