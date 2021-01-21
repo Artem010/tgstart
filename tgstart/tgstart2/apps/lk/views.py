@@ -46,13 +46,9 @@ def check_auth(request):
 
 
 def removebot(request):
-    try:
-        deactivatebot(request)
-    except Exception as e:
-        pass
-
+    deactivatebot(request)
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
+    cBotId =request.GET['botID']
     cBot = cUser.bot_set.get(id = cBotId)
 
     cBot.delete();
@@ -67,9 +63,14 @@ def removeuser(request, botID, userID):
     cUser = cBot.botuser_set.get(id = userID)
     cUser.delete()
 
+def reloadbot(request):
+    deactivatebot(request);
+    activatebot(request)
+
+
 def activatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
+    cBotId =request.GET['botID']
     cBot = cUser.bot_set.get(id = cBotId)
 
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
@@ -81,13 +82,21 @@ def activatebot(request):
 
 def deactivatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
+    cBotId =request.GET['botID']
     cBot = cUser.bot_set.get(id = cBotId)
     print(cBot.pID)
-    os.kill(cBot.pID, signal.SIGTERM)
+    try:
+        os.kill(cBot.pID, signal.SIGTERM)
+        return redirect('/mybots')
+    except Exception as e:
+        print(e)
+
     cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
     print("*******deactivated bot*******")
     return redirect('/mybots')
+
+
+
 
 def dashboard(request):
 
@@ -121,12 +130,14 @@ def edit(request):
             cBot.customcommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
             # cBot.CustomCommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
             print('command added!')
+            reloadbot(request)
             return redirect('/mybots/edit?botID='+cBotId)
     if 'idCommand' in request.GET:
             cBotId =str(request.GET.get('botID'))
             cBot = cUser.bot_set.get(id = cBotId)
             s = cBot.customcommand_set.get(id = request.GET.get('idCommand'))
             s.delete()
+            reloadbot(request);
             return redirect('/mybots/edit?botID='+cBotId)
 
     return render(request, 'volt/edit.html', {'cBot':cBot,'cBotCustomCommands': cBotCustomCommands, 'auth': check_auth(request)})

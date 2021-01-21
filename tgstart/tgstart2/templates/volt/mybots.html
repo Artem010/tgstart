@@ -95,11 +95,11 @@
               <div class="card-body">
                 <a href='/mybots/edit?botID={{i.id}}' class=" card-link">Редактировать</a>
                 {%if i.status == 1%}
-                  <a href="/mybots/deactivatebot?id={{i.id}}"  class=" card-link">Отключить</a>
+                  <a href="/mybots/deactivatebot?botID={{i.id}}"  class=" card-link">Отключить</a>
                 {%else%}
-                  <a href="/mybots/activatebot?id={{i.id}}"  class=" card-link">Включить</a>
+                  <a href="/mybots/activatebot?botID={{i.id}}"  class=" card-link">Включить</a>
                 {%endif%}
-                <a href="/mybots/removebot?id={{i.id}}"  class="text-danger card-link">Удалить бота</a>
+                <a href="/mybots/removebot?botID={{i.id}}"  class="text-danger card-link">Удалить бота</a>
                 <!-- <a href="#" class="text-danger card-link">E</a> -->
               </div>
             </div>
