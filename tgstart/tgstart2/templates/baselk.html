@@ -42,38 +42,39 @@
 
 	        <ul class="nav flex-column">
 	          <li class="nav-item">
-	            <a class="nav-link{% if auth.url == '/dashboard/'%} active{%endif%}" aria-current="page" href="/dashboard">
+	            <a class="nav-link{% if auth.url == 'dashboard'%} active{%endif%}" aria-current="page" href="/dashboard">
 	              <i class="fa fa-home fa-fw" aria-hidden="true"></i>
 	              Панель управления
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link{% if auth.url == '/mybots/'%} active{%endif%}" href="/mybots">
+	            <a class="nav-link{% if auth.url == 'mybots' %} active{%endif%}" href="/mybots">
 	              <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
 	              Мои боты
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link{% if auth.url == '/users/'%} active{%endif%}" href="/users">
+	            <a class="nav-link{% if auth.url == 'users'%} active{%endif%}" href="/users">
 	              <i class="fa fa-user fa-fw" aria-hidden="true"></i>
 	              Пользователи
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link{% if auth.url == '/senders/'%} active{%endif%}" href="/senders">
+	            <a class="nav-link{% if auth.url == 'senders'%} active{%endif%}" href="/senders">
 	              <i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>
 	              Рассылки
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link{% if auth.url == '/pay/'%} active{%endif%}" href="/pay">
+	            <a class="nav-link{% if auth.url == 'pay'%} active{%endif%}" href="/pay">
 	              <i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
 	              <!-- <i class="fa fa-book" aria-hidden="true"> -->
 	              Тарифы
+
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link{% if auth.url == '/profile/'%} active{%endif%}" href="/profile">
+	            <a class="nav-link{% if auth.url == 'profile'%} active{%endif%}" href="/profile">
 	              <i class="fa fa-cog fa-fw" aria-hidden="true"></i>
 	              Профиль
 	            </a>

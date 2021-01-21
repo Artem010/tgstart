@@ -38,15 +38,9 @@ def check_auth(request):
 
     sUserId = sessionUserId
     uData = User.objects.filter(id = sUserId)
-    url = request.path
-    # print(url)
+    url = ((request.path).split('/'))[1]
+    print(url)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0], 'url': url}
-
-# def getCurrentBotByGET():
-#     cUser = User.objects.get(id = request.session.get('sUserId'))
-#     cBotId =request.GET['id']
-#     cBot = cUser.bot_set.get(id = cBotId)
-
 
 # *****custom Def******
 
