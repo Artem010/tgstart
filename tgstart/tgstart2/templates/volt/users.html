@@ -48,9 +48,9 @@
                 <div class="form-group mb-2">
                   <label class="errorLine sr-only"></label><br>
                     <label for="" class="sr-only">Сообщение:</label>
-                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="messageText" id="messageText" value="">
-                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="botID" id="botID" value="{{cBot.id}}">
-                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="userID" id="userID" value="{{usersData.first.id}}">
+                    <input class="form-control" autocomplete="off" type="text" name="messageText" id="messageText" value="">
+                    <input style="visibility : " class="form-control" autocomplete="off" type="text" name="botID" id="botID" value="">
+                    <input style="visibility : " class="form-control" autocomplete="off" type="text" name="userID" id="userID" value="">
                 </div>
               <input type="submit"  href="?botID={{cBot.id}}&userID={{i.id}}"  value="Отправить" class="createBot btn btn-primary"></input>
               </form>
@@ -82,7 +82,7 @@
                 <td>{{i.last_name}}</td>
                 <th>{{i.tg_id}}</th>
                 <th>{{i.dateReg}}</th>
-                <th><button type='button' class='btn btn-primary'  data-toggle="modal" data-target="#exampleModal">Написать сообщение</button></th>
+                <th><button type='button' class='sendMessage btn btn-primary' data-uid={{i.id}} data-bid={{cBot.id}} data-toggle="modal" data-target="#exampleModal">Написать сообщение</button></th>
                 <th><a href="?botID={{cBot.id}}&userID={{i.id}}">Удалить</a></th>
               </tr>
             {%endfor%}
@@ -93,4 +93,22 @@
       {%endif%}
     </main>
 
+
 {%endblock%}
+
+{% block footerScripts%}
+
+<script type="text/javascript">
+  $(function () {
+    $(".sendMessage").click(function () {
+         let cBotID = $(this).data('bid');
+         let userID = $(this).data('uid');
+         $('#botID').val(cBotID)
+         $('#userID').val(userID)
+         // console.log(cBotID)
+         // console.log(userID)
+    });
+  });
+</script>
+
+{% endblock%}
