@@ -59,3 +59,15 @@ class Messages(models.Model):
 	class Meta:
 		verbose_name = "Сообщение"
 		verbose_name_plural = "Сообщения"
+
+class CustomCommand(models.Model):
+	bot_name = models.ForeignKey(Bot, on_delete = models.CASCADE)
+	command = models.CharField('Команда', max_length = 100, default=0)
+	response = models.CharField('Ответ', max_length = 500, default=0)
+
+	def __str__(self):
+		return (str(self.bot_name))
+
+	class Meta:
+		verbose_name = "Пользовательские команды"
+		verbose_name_plural = "Пользовательская команда"
