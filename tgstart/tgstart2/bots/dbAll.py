@@ -51,14 +51,14 @@ def addMsgsDB(config):
         cursor = sqlite_connection.cursor()
         print("Подключен к SQLite")
 
-        sqlite_select_query = """SELECT * from users_messages where bot_name_id = ? and date = ? """
+        sqlite_select_query = """SELECT * from users_messages where bot_name_id = ? and date = ?"""
         cDate = getDate()
         cursor.execute(sqlite_select_query, (config.bot_id,cDate))
         records = cursor.fetchall()
         if(len(records) > 0 ):
             count = records[0][1] + 2
-            sql_update_query = """Update users_messages set count = ? where bot_name_id = ?"""
-            cursor.execute(sql_update_query, (count, config.bot_id))
+            sql_update_query = """Update users_messages set count = ? where bot_name_id = ? and date = ?"""
+            cursor.execute(sql_update_query, (count, config.bot_id, cDate))
             sqlite_connection.commit()
             print("Запись успешно обновлена")
         else:
@@ -70,6 +70,45 @@ def addMsgsDB(config):
             count = cursor.execute(sqlite_insert_query, data_tuple)
             sqlite_connection.commit()
             print("Запись успешно вставлена ​​в таблицу users_messages ", cursor.rowcount)
+
+        cursor.close()
+    except sqlite3.Error as error:
+        print("Ошибка при работе с SQLite", error)
+    finally:
+        if sqlite_connection:
+            sqlite_connection.close()
+            print("Соединение с SQLite закрыто")
+
+def getCustomCommandDB(config):
+    try:
+        sqlite_connection = sqlite3.connect(pathDB)
+        cursor = sqlite_connection.cursor()
+        print("Подключен к SQLite")
+
+        sqlite_select_query = """SELECT * from users_customcommand where bot_name_id = ?"""
+        cursor.execute(sqlite_select_query, (config.bot_id,))
+        records = cursor.fetchall()
+        if(len(records) > 0 ):
+            # count = records[0][1] + 2
+            # sql_update_query = """Update users_messages set count = ? where bot_name_id = ? and date = ?"""
+            # cursor.execute(sql_update_query, (count, config.bot_id, cDate))
+            # sqlite_connection.commit()
+            # print("Запись успешно обновлена")
+        # print(records)
+            # print(records[0][1])
+            # print(records[0][2])
+            return records
+        else:
+            print('NONE')
+            return 0
+            # sqlite_insert_query = """INSERT INTO users_messages
+            #                         (count,date, bot_name_id)
+            #                         VALUES (?, ?, ?);"""
+            #
+            # data_tuple  = (2, cDate, config.bot_id)
+            # count = cursor.execute(sqlite_insert_query, data_tuple)
+            # sqlite_connection.commit()
+            # print("Запись успешно вставлена ​​в таблицу users_messages ", cursor.rowcount)
 
         cursor.close()
     except sqlite3.Error as error:

@@ -2,7 +2,12 @@ import sys,os
 sys.path.insert(0, os.getcwd() + '/tgstart2/bots/')
 import config,telebot,dbAll
 
+
 bot = telebot.TeleBot(config.token)
+
+records = dbAll.getCustomCommandDB(config);
+
+print(records)
 
 @bot.message_handler(commands=['start', 'go'])
 def start_handler(message):
@@ -15,12 +20,19 @@ def start_handler(message):
     dbAll.addUSerDB(config, str(message.chat.id), str(message.chat.username),str(message.chat.first_name),str(message.chat.last_name), file_path);
     bot.send_message(message.chat.id, 'User saved')
 
-
 @bot.message_handler(content_types=["text"])
 def repeat_all_messages(message):
-    bot.send_message(message.chat.id, message.text)
+    i=0;
+    for r in records:
+        if(message.text==r[1]):
+            i=1;
+            bot.send_message(message.chat.id, text=r[2])
+    if i == 0:
+        bot.send_message(message.chat.id, message.text)
+
+
     dbAll.addMsgsDB(config)
 
 
 if __name__ == '__main__':
-     bot.polling(none_stop=True, interval=1)
+    bot.polling(none_stop=True, interval=1)

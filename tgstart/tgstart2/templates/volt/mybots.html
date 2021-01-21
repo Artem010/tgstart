@@ -93,7 +93,7 @@
                 <li class="list-group-item">Vestibulum at eros</li>
               </ul>
               <div class="card-body">
-                <a  >Редактировать</a>
+                <a href='/mybots/edit?botID={{i.id}}' class=" card-link">Редактировать</a>
                 {%if i.status == 1%}
                   <a href="/mybots/deactivatebot?id={{i.id}}"  class=" card-link">Отключить</a>
                 {%else%}

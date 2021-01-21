@@ -112,6 +112,31 @@ def dashboard(request):
         return render(request, 'volt/dashboard.html', {'tgBots': tgBots, 'auth':check_auth(request)})
     return render(request, 'volt/dashboard.html', {'dataChart': dataChart, 'cBot':cBot, 'tgBots': tgBots, 'auth':check_auth(request)})
 
+def edit(request):
+    cUser = User.objects.get(id = request.session.get('sUserId'))
+    tgBots= cUser.bot_set.all()
+    cBotCustomCommands = 0;
+    if 'botID' in request.GET:
+        cBotId =str(request.GET.get('botID'))
+        cBot = cUser.bot_set.get(id = cBotId)
+        if((cBot.customcommand_set.all()).count() > 0):
+            cBotCustomCommands = cBot.customcommand_set.all()
+
+        if request.method == "POST":
+            print("POST")
+            cBot.customcommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
+            # cBot.CustomCommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
+            print('command added!')
+            return redirect('/mybots/edit?botID='+cBotId)
+    if 'idCommand' in request.GET:
+            cBotId =str(request.GET.get('botID'))
+            cBot = cUser.bot_set.get(id = cBotId)
+            s = cBot.customcommand_set.get(id = request.GET.get('idCommand'))
+            s.delete()
+            return redirect('/mybots/edit?botID='+cBotId)
+
+    return render(request, 'volt/edit.html', {'cBot':cBot,'cBotCustomCommands': cBotCustomCommands, 'auth': check_auth(request)})
+
 def mybots(request):
 
 

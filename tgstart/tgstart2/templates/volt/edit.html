@@ -1,0 +1,59 @@
+{% extends 'baselk.html' %}
+{% load static %}
+
+{% block title %}Мои боты{% endblock %}
+
+{% block head%}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+{%endblock%}
+
+
+{%block mainContent%}
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{cBot.bot_name}} / Редактирование</h1>
+      </div>
+
+
+      <!-- Modal -->
+      <form class="form-inline" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group mb-2">
+          <label class="errorLine sr-only"></label><br>
+            <label for="" class="sr-only">Бот токен:</label>
+            <textarea rows="4" cols="80" required class="tgToketnInput form-control" autocomplete="off" placeholder="Команда" type="text" name="botCommand" id="tgToken" value=""></textarea><br>
+            <textarea rows="4" cols="80" required class="tgToketnInput form-control" autocomplete="off" placeholder="Ответ" type="text" name="botResponse" id="tgToken" value=""></textarea>
+        </div>
+
+      <input type="submit" value="Добавить команду" class="createBot btn btn-primary"></input>
+      </form><br>
+
+
+      {%if cBotCustomCommands != 0%}
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Команда</th>
+              <th>Ответ</th>
+              <th>Удалить</th>
+              <!-- <th>Ответ</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            {%for i in cBotCustomCommands%}
+              <tr>
+                <td>{{i.command}}</td>
+                <td>{{i.response}}</td>
+                <td><a href="/mybots/edit?botID={{cBot.id}}&idCommand={{i.id}}">Удалить</a></td>
+              </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+      {%else%}
+        <h2>Команд ещё нет😭</h2>
+      {%endif%}
+
+
+    </main>
+{%endblock%}
