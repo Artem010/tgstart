@@ -32,6 +32,33 @@
         </div>
       </div>
 
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <form class="form-inline" action="" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                  <label class="errorLine sr-only"></label><br>
+                    <label for="" class="sr-only">Сообщение:</label>
+                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="messageText" id="messageText" value="">
+                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="botID" id="botID" value="{{cBot.id}}">
+                    <input class="tgToketnInput form-control" autocomplete="off" type="text" name="userID" id="userID" value="{{usersData.first.id}}">
+                </div>
+              <input type="submit"  href="?botID={{cBot.id}}&userID={{i.id}}"  value="Отправить" class="createBot btn btn-primary"></input>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
       {%if usersData != 0%}
         <table class="table table-bordered">
           <thead>
@@ -55,7 +82,7 @@
                 <td>{{i.last_name}}</td>
                 <th>{{i.tg_id}}</th>
                 <th>{{i.dateReg}}</th>
-                <th><a href="">Написать сообщение</a></th>
+                <th><button type='button' class='btn btn-primary'  data-toggle="modal" data-target="#exampleModal">Написать сообщение</button></th>
                 <th><a href="?botID={{cBot.id}}&userID={{i.id}}">Удалить</a></th>
               </tr>
             {%endfor%}
@@ -65,4 +92,5 @@
         <h2>Пользователей ещё нет😭</h2>
       {%endif%}
     </main>
+
 {%endblock%}
