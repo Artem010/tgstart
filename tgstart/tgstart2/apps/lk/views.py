@@ -61,15 +61,21 @@ def removebot(request):
     print("*******del bot*******")
     return redirect('/mybots')
 
+
+
 def removeuser(request, botID, userID):
     cUser = User.objects.get(id = request.session.get('sUserId'))
     cBot = cUser.bot_set.get(id = botID)
     cUser = cBot.botuser_set.get(id = userID)
     cUser.delete()
 
+def reloadbot(request):
+    deactivatebot(request);
+    activatebot(request)
+
 def activatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
+    cBotId =request.GET['botID']
     cBot = cUser.bot_set.get(id = cBotId)
 
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
@@ -81,10 +87,14 @@ def activatebot(request):
 
 def deactivatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
+    cBotId =request.GET['botID']
     cBot = cUser.bot_set.get(id = cBotId)
     print(cBot.pID)
-    os.kill(cBot.pID, signal.SIGTERM)
+    try:
+        os.kill(cBot.pID, signal.SIGTERM)
+    except Exception as e:
+        print(e)
+
     cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
     print("*******deactivated bot*******")
     return redirect('/mybots')
@@ -121,12 +131,14 @@ def edit(request):
             cBot.customcommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
             # cBot.CustomCommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
             print('command added!')
+            reloadbot(request)
             return redirect('/mybots/edit?botID='+cBotId)
     if 'idCommand' in request.GET:
             cBotId =str(request.GET.get('botID'))
             cBot = cUser.bot_set.get(id = cBotId)
             s = cBot.customcommand_set.get(id = request.GET.get('idCommand'))
             s.delete()
+            reloadbot(request)
             return redirect('/mybots/edit?botID='+cBotId)
 
     return render(request, 'volt/edit.html', {'cBot':cBot,'cBotCustomCommands': cBotCustomCommands, 'auth': check_auth(request)})
@@ -208,7 +220,8 @@ def users(request):
     # if 'botID' and 'userID' in request.GET:
     #     removeuser(request, request.GET.get('botID'), request.GET.get('userID'))
     print(request.POST.get('messageText'))
-    if 'botID' and 'userID' and 'messageText' in request.POST:
+    # if 'botID' and 'userID' and 'messageText' in request.POST:
+    if request.POST:
         cBot = cUser.bot_set.get(id = request.POST.get('botID'))
         cBotToken = cBot.token
         tgid=cBot.botuser_set.get(id= request.POST.get('userID'))

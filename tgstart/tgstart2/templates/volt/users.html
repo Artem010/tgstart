@@ -43,16 +43,15 @@
             </div>
             <div class="modal-body">
 
-              <form class="form-inline" action="" method="post">
+              <form class="form-inline" action="" id='sendMessageForm' method="post">
                 {% csrf_token %}
                 <div class="form-group mb-2">
-                  <label class="errorLine sr-only"></label><br>
-                    <label for="" class="sr-only">Сообщение:</label>
+                    <label class="errorLine"></label><br>
+                    <label for="messageText">Сообщение:</label>
                     <input class="form-control" autocomplete="off" type="text" name="messageText" id="messageText" value="">
-                    <input style="visibility : " class="form-control" autocomplete="off" type="text" name="botID" id="botID" value="">
-                    <input style="visibility : " class="form-control" autocomplete="off" type="text" name="userID" id="userID" value="">
                 </div>
-              <input type="submit"  href="?botID={{cBot.id}}&userID={{i.id}}"  value="Отправить" class="createBot btn btn-primary"></input>
+                <!-- href="?botID={{cBot.id}}&userID={{i.id}}"  -->
+                <button type="button" id='sendMessageBtn' class="createBot btn btn-primary">Отправить</button>
               </form>
             </div>
 
@@ -100,14 +99,29 @@
 
 <script type="text/javascript">
   $(function () {
+    let cBotID,userID
     $(".sendMessage").click(function () {
-         let cBotID = $(this).data('bid');
-         let userID = $(this).data('uid');
-         $('#botID').val(cBotID)
-         $('#userID').val(userID)
-         // console.log(cBotID)
-         // console.log(userID)
+       $("#messageText").val('')
+       $('.errorLine').text('')
+       cBotID = $(this).data('bid');
+       userID = $(this).data('uid');
     });
+
+    $("#sendMessageBtn").click(function(){
+      data = $("#sendMessageForm").serialize() + '&messageText='+$("#messageText").val()+'&botID='+cBotID+'&userID='+userID
+      // console.log(data)
+    	$.ajax({
+    		url: '',
+    		method: 'POST',
+    		dataType: 'html',
+    		data: data,
+    		success: function(data){
+          $('.errorLine').text('Сообщение отправлено!').css('color', 'green');
+    		}
+    	});
+    });
+
+
   });
 </script>
 
