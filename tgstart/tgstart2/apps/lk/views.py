@@ -39,7 +39,7 @@ def check_auth(request):
     sUserId = sessionUserId
     uData = User.objects.filter(id = sUserId)
     url = ((request.path).split('/'))[1]
-    print(url)
+    # print(url)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0], 'url': url}
 
 # *****custom Def******
@@ -113,7 +113,12 @@ def dashboard(request):
         else:
             dataChart = '0'
     else:
-        return render(request, 'volt/dashboard.html', {'tgBots': tgBots, 'auth':check_auth(request)})
+        data = [""]
+        for i in tgBots:
+            data.append(i.messages_set.all())
+        # tgBots = tgBots[0].messages_set.all())
+        print(data)
+        return render(request, 'volt/dashboard.html', {'tgBots': tgBots, 'data':data, 'auth':check_auth(request)})
     return render(request, 'volt/dashboard.html', {'dataChart': dataChart, 'cBot':cBot, 'tgBots': tgBots, 'auth':check_auth(request)})
 
 def edit(request):

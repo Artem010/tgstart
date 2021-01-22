@@ -36,8 +36,8 @@
           <div class="col-md-6"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque officia quo et, debitis ut dignissimos earum tenetur sapiente quam perferendis ullam aspernatur distinctio doloribus vero facilis molestias, porro excepturi quas iusto ducimus odio veritatis aperiam. Perferendis impedit voluptas magni tempora debitis eaque aspernatur illum officia. Iusto architecto, minima culpa tenetur eius repudiandae animi, quos harum impedit itaque ipsam, fugit quaerat ab sunt odio iste voluptatibus inventore at minus numquam, atque illum. Dicta amet tempora, quos libero? Corporis molestias dolorum ullam obcaecati, placeat non pariatur, harum maxime sit voluptates labore similique nam iste sint, vero culpa nisi. Laudantium at cupiditate tempore voluptas a ipsum quas! Blanditiis dicta quia ut quos reprehenderit, unde, molestias cupiditate quasi fugiat nisi eum laborum! Unde, laborum, porro! Ad, porro ea numquam atque quidem nisi fugit minus vero similique, amet quis a nostrum inventore autem, consequuntur, reiciendis neque debitis culpa voluptas molestiae. Voluptate vero id voluptatem excepturi ex a architecto similique et reiciendis consequuntur ea soluta doloremque reprehenderit nihil odit veritatis, illum earum sequi nulla necessitatibus ab, tempora. Libero dignissimos aspernatur suscipit voluptatem non nam rem, et doloremque debitis maiores. Officiis dicta quasi voluptate magni autem odit, praesentium molestiae eveniet obcaecati inventore, officia laborum culpa dolor excepturi.</p></div>
         </div>
 
-
-
+{{data}}
+{{dataChart}}
     </main>
 {% endblock %}
 
@@ -67,6 +67,48 @@
       {%endif%}
       // console.log(statMSGS)
 
+
+
+      {%if data%}
+
+      labelsMSGS = [
+      {%for i in data%}
+          {%for j in i%}'{{j.date}}',{%endfor%}
+      {%endfor%}
+      ]
+
+      let colors = ['green','blue','red','AliceBlue','AntiqueWhite','Aquamarine','Black']
+
+      let datasets = [
+        {%for i in data%}
+          {
+            data: [{%for j in i%}{{j.count}},{%endfor%}],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: colors[{{forloop.counter0}}],
+            borderWidth: 4,
+            pointBackgroundColor: colors[{{forloop.counter0}}]
+          },
+        {%endfor%}
+      ]
+      {%else%}
+      let datasets =  [{
+          data: statMSGS,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      {%endif%}
+
+
+
+
+
+
+
+
       // Graphs
       var ctx = document.getElementById('myChart')
       // eslint-disable-next-line no-unused-vars
@@ -74,14 +116,7 @@
         type: 'line',
         data: {
           labels: labelsMSGS,
-          datasets: [{
-            data: statMSGS,
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 4,
-            pointBackgroundColor: '#007bff'
-          }]
+          datasets: datasets
         },
         options: {
           responsive: true,
