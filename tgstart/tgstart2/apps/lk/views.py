@@ -42,6 +42,7 @@ def check_auth(request):
     # print(url)
     return {'sUserId':request.session.get('sUserId'), 'uData':uData[0], 'url': url}
 
+
 # *****custom Def******
 
 
@@ -52,7 +53,7 @@ def removebot(request):
         pass
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['id']
+    cBotId =request.session.get('botID')
     cBot = cUser.bot_set.get(id = cBotId)
 
     cBot.delete();
@@ -75,19 +76,19 @@ def reloadbot(request):
 
 def activatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['botID']
+    cBotId =request.session.get('botID')
     cBot = cUser.bot_set.get(id = cBotId)
 
     cDir = os.getcwd() + '/tgstart2/bots/' + str( request.session.get('sUserId')) + "/"+str(cBotId)
     pr = subprocess.Popen(['python', cDir +'/main.py'])
     # pr = subprocess.Popen(['python3', cDir +'/main.py'])
     cUser.bot_set.filter(id=cBotId).update(pID = pr.pid, status = 1)
-    print("*******Activated bot*******")
+    print("*******Activateded bot*******")
     return redirect('/mybots')
 
 def deactivatebot(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
-    cBotId =request.GET['botID']
+    cBotId =request.session.get('botID')
     cBot = cUser.bot_set.get(id = cBotId)
     print(cBot.pID)
     try:
@@ -96,7 +97,17 @@ def deactivatebot(request):
         print(e)
 
     cUser.bot_set.filter(id = cBotId).update(pID = 0, status = 0)
-    print("*******deactivated bot*******")
+    print("*******Deactivated bot*******")
+    return redirect('/mybots')
+
+def BotIdProc(request):
+    if 'botID' in request.POST:
+        request.session['botID'] = request.POST.get('botID')
+        print(request.session['botID'] + ' added!')
+    if 'idCommand' in request.POST:
+        request.session['idCommand'] = request.POST.get('idCommand')
+        print(request.session['idCommand'] + ' added!')
+        return redirect('/mybots/edit')
     return redirect('/mybots')
 
 def dashboard(request):
@@ -104,18 +115,19 @@ def dashboard(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
     tgBots= cUser.bot_set.all()
 
-    if 'botID' in request.GET:
+    if 'botID' in request.session:
         if((cUser.bot_set.all()).count() > 0):
             # print(tgBots[0].bot_name)
-            cBotId =str(request.GET.get('botID'))
+            cBotId =str(request.session.get('botID'))
             cBot = cUser.bot_set.get(id = cBotId)
             dataChart = cBot.messages_set.filter(bot_name_id = cBotId)
         else:
             dataChart = '0'
     else:
-        data = [""]
+        data = []
+        tgBots= cUser.bot_set.all()
         for i in tgBots:
-            data.append(i.messages_set.all())
+            data.append(i.messages_set.all().order_by('id'))
         # tgBots = tgBots[0].messages_set.all())
         print(data)
         return render(request, 'volt/dashboard.html', {'tgBots': tgBots, 'data':data, 'auth':check_auth(request)})
@@ -125,26 +137,27 @@ def edit(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
     tgBots= cUser.bot_set.all()
     cBotCustomCommands = 0;
-    if 'botID' in request.GET:
-        cBotId =str(request.GET.get('botID'))
-        cBot = cUser.bot_set.get(id = cBotId)
-        if((cBot.customcommand_set.all()).count() > 0):
-            cBotCustomCommands = cBot.customcommand_set.all()
 
-        if request.method == "POST":
-            print("POST")
+    cBotId =str(request.session.get('botID'))
+    cBot = cUser.bot_set.get(id = cBotId)
+    if((cBot.customcommand_set.all()).count() > 0):
+        cBotCustomCommands = cBot.customcommand_set.all()
+
+    if request.method == "POST":
+        print("POST")
+        if 'idCommand' in request.POST:
+            cBotId =str(request.POST.get('botID'))
+            cBot = cUser.bot_set.get(id = cBotId)
+            (cBot.customcommand_set.get(id = request.POST.get('idCommand'))).delete()
+            reloadbot(request)
+            # return redirect('/mybots/edit')
+        elif 'botCommand' in request.POST:
             cBot.customcommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
             # cBot.CustomCommand_set.create(command = request.POST.get('botCommand'),response = request.POST.get('botResponse'))
             print('command added!')
             reloadbot(request)
-            return redirect('/mybots/edit?botID='+cBotId)
-    if 'idCommand' in request.GET:
-            cBotId =str(request.GET.get('botID'))
-            cBot = cUser.bot_set.get(id = cBotId)
-            s = cBot.customcommand_set.get(id = request.GET.get('idCommand'))
-            s.delete()
-            reloadbot(request)
-            return redirect('/mybots/edit?botID='+cBotId)
+            return redirect('/mybots/edit')
+
 
     return render(request, 'volt/edit.html', {'cBot':cBot,'cBotCustomCommands': cBotCustomCommands, 'auth': check_auth(request)})
 
@@ -152,6 +165,7 @@ def mybots(request):
 
 
     if request.method == "POST":
+
 #assigning a option(template) to a bot
         cUser = User.objects.get(id = request.session.get('sUserId'))
         if not (cUser.bot_set.filter(token=request.POST.get('tgToken')).exists()):
@@ -222,8 +236,8 @@ def users(request):
     tgBots= cUser.bot_set.all()
     # print((cUser.bot_set.all()).count())
 
-    # if 'botID' and 'userID' in request.GET:
-    #     removeuser(request, request.GET.get('botID'), request.GET.get('userID'))
+    if 'botId' and 'userID' in request.GET:
+        removeuser(request, request.GET.get('botID'), request.GET.get('userID'))
     print(request.POST.get('messageText'))
     # if 'botID' and 'userID' and 'messageText' in request.POST:
     if request.POST:
@@ -235,10 +249,10 @@ def users(request):
         print(tgid.tg_id)
         print('успешно')
 
-    if 'botID' in request.GET:
+    if 'botID' in request.session:
         if((cUser.bot_set.all()).count() > 0):
             # print(tgBots[0].bot_name)
-            cBotId =str(request.GET.get('botID'))
+            cBotId =str(request.session.get('botID'))
             cBot = cUser.bot_set.get(id = cBotId)
             cBotToken = cBot
 

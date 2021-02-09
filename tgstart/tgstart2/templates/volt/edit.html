@@ -4,6 +4,11 @@
 {% block title %}Мои боты{% endblock %}
 
 {% block head%}
+    <style media="screen">
+        td a{
+          cursor:pointer;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 {%endblock%}
 
@@ -17,7 +22,7 @@
 
 
       <!-- Modal -->
-      <form class="form-inline" action="" method="post">
+      <form class="form-inline" id='addCommandForm' action="" method="post">
         {% csrf_token %}
         <div class="form-group mb-2">
           <label class="errorLine sr-only"></label><br>
@@ -45,7 +50,7 @@
               <tr>
                 <td>{{i.command}}</td>
                 <td>{{i.response}}</td>
-                <td><a href="/mybots/edit?botID={{cBot.id}}&idCommand={{i.id}}">Удалить</a></td>
+                <td><a class="editLink"  data-id='{{cBot.id}}' data-idCommand='{{i.id}}'">Удалить</a></td>
               </tr>
             {%endfor%}
           </tbody>
@@ -53,7 +58,41 @@
       {%else%}
         <h2>Команд ещё нет😭</h2>
       {%endif%}
-
+{% csrf_token %}
 
     </main>
+    <script>
+      $('.editLink').click(function(){
+        // let a = $(this).data('bid')
+        let data = 'csrfmiddlewaretoken='+$("input[name='csrfmiddlewaretoken']").val()+'&botID='+$(this).data('id')+"&idCommand="+$(this).data('idcommand')
+        // console.log(data)
+        $.ajax({
+          url: '', // путь к php-обработчику
+          type: 'POST', // метод передачи данных
+          dataType: 'html', // тип ожидаемых данных в ответе
+          data: data, // данные, которые передаем на сервер
+          error: function(req, text, error){ // отслеживание ошибок во время выполнения ajax-запроса
+            alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
+          }
+        });
+        $(this).parents('tr').remove()
+      });
+      // if ( window.history.replaceState ) {
+      //        window.history.replaceState( null, null, window.location.href );
+      //    }
+      // $('.createBot').click(function(){
+      //   // let a = $(this).data('bid')
+      //   // let data = 'csrfmiddlewaretoken='+$("input[name='csrfmiddlewaretoken']").val()+'&botID='+$(this).data('id')+"&idCommand="+$(this).data('idcommand')
+      //   // console.log(data)
+      //   $.ajax({
+      //     url: '', // путь к php-обработчику
+      //     type: 'POST', // метод передачи данных
+      //     dataType: 'html', // тип ожидаемых данных в ответе
+      //     data: $('#addCommandForm').serialize(), // данные, которые передаем на сервер
+      //     error: function(req, text, error){ // отслеживание ошибок во время выполнения ajax-запроса
+      //       alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
+      //     }
+      //   });
+      // });
+    </script>
 {%endblock%}
