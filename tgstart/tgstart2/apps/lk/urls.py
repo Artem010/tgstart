@@ -22,6 +22,6 @@ urlpatterns = [
 	path('mybots/edit', views.edit, name = 'edit'),
 	path('pay/', views.pay, name = 'pay'),
 	path('senders/', views.senders, name = 'senders'),
-	path('users/', views.users, name = 'users'),
-	path('BotIdProc/', views.BotIdProc, name = 'BotIdProc')
+	path('users/', views.users, name = 'users')
+	# path('BotIdProc/', views.BotIdProc, name = 'BotIdProc')
 ]

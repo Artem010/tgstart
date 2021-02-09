@@ -107,31 +107,34 @@ def BotIdProc(request):
     if 'idCommand' in request.POST:
         request.session['idCommand'] = request.POST.get('idCommand')
         print(request.session['idCommand'] + ' added!')
-        return redirect('/mybots/edit')
-    return redirect('/mybots')
+    return redirect(request.path)
 
 def dashboard(request):
+    if 'botID' in request.POST:
+        request.session['botID'] = request.POST.get('botID')
+        print(request.session['botID'] + ' added!')
+        return redirect('/dashboard/')
 
     cUser = User.objects.get(id = request.session.get('sUserId'))
     tgBots= cUser.bot_set.all()
+    if((cUser.bot_set.all()).count() > 0):
+        # print(tgBots[0].bot_name)
+        cBotId =str(request.session.get('botID'))
+        cBot = cUser.bot_set.get(id = cBotId)
+        usersCount = (cBot.botuser_set.all()).count()
+        commandsCount = (cBot.customcommand_set.all()).count()
+        dataChart = cBot.messages_set.filter(bot_name_id = cBotId)
+        now = datetime.datetime.now()
+        cDate = now.strftime("%d-%m-%Y")
 
-    if 'botID' in request.session:
-        if((cUser.bot_set.all()).count() > 0):
-            # print(tgBots[0].bot_name)
-            cBotId =str(request.session.get('botID'))
-            cBot = cUser.bot_set.get(id = cBotId)
-            dataChart = cBot.messages_set.filter(bot_name_id = cBotId)
+        if ((cBot.messages_set.filter(date = cDate)).exists()):
+            cCount = (cBot.messages_set.filter(date =cDate))[0].count
         else:
-            dataChart = '0'
+            cCount =0
     else:
-        data = []
-        tgBots= cUser.bot_set.all()
-        for i in tgBots:
-            data.append(i.messages_set.all().order_by('id'))
-        # tgBots = tgBots[0].messages_set.all())
-        print(data)
-        return render(request, 'volt/dashboard.html', {'tgBots': tgBots, 'data':data, 'auth':check_auth(request)})
-    return render(request, 'volt/dashboard.html', {'dataChart': dataChart, 'cBot':cBot, 'tgBots': tgBots, 'auth':check_auth(request)})
+        dataChart = '0'
+
+    return render(request, 'volt/dashboard.html', {'dataChart': dataChart, 'cCount':cCount, 'usersCount':usersCount, 'commandsCount':commandsCount, 'cBot':cBot, 'tgBots': tgBots, 'auth':check_auth(request)})
 
 def edit(request):
     cUser = User.objects.get(id = request.session.get('sUserId'))
@@ -232,6 +235,11 @@ def senders(request):
     return render(request, 'volt/senders.html', {'auth': check_auth(request)})
 
 def users(request):
+    if 'botID' in request.POST:
+        request.session['botID'] = request.POST.get('botID')
+        print(request.session['botID'] + ' added!')
+        return redirect('/users/')
+
     cUser = User.objects.get(id = request.session.get('sUserId'))
     tgBots= cUser.bot_set.all()
     # print((cUser.bot_set.all()).count())
